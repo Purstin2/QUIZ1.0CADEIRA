@@ -16,7 +16,6 @@ const QuickNav: React.FC = () => {
     { path: '/goals', label: 'Goals Selection' },
     { path: '/confirmation', label: 'Confirmation Page' },
     { path: '/chair-yoga-experience', label: 'Chair Yoga Experience' },
-    { path: '/chair-yoga-info', label: 'Chair Yoga Info' },
     { path: '/target-zones', label: 'Target Zones' },
     { path: '/body-type', label: 'Body Type' },
     { path: '/dream-body', label: 'Dream Body' },

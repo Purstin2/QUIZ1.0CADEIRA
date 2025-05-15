@@ -78,14 +78,13 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
     '/community',                // Community Page
     '/goals',                    // Goals Selection
     '/chair-yoga-experience',    // Chair Yoga Experience
-    '/chair-yoga-info',          // Chair Yoga Info
-    '/target-zones',             // Target Zones
+    // '/chair-yoga-info' removido daqui
     '/body-type',                // Body Type
     '/dream-body',               // Dream Body
     '/activity-level',           // Activity Level
     '/walking-time',             // Walking Time
     '/yoga-level',               // Yoga Level
-    '/sensitivity-check',         // Sensitivity Check
+    '/sensitivity-check',        // Sensitivity Check
     '/support-step',             // Suporte emocional ou etapa extra
     '/exercise-style', 
     '/available-time', 

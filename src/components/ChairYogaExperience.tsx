@@ -37,7 +37,7 @@ const ChairYogaExperience: React.FC = () => {
     setSelected(value);
     setChairYogaExperience(value as 'never' | 'tried' | 'regular');
     setTimeout(() => {
-      navigate('/chair-yoga-info');
+      navigate('/target-zones');
     }, 300);
   };
 

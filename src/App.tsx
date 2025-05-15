@@ -6,7 +6,7 @@ import SexSelection from './components/SexSelection';
 import CommunityPage from './components/CommunityPage';
 import GoalsSelection from './components/GoalsSelection';
 import ChairYogaExperience from './components/ChairYogaExperience';
-import ChairYogaInfo from './components/ChairYogaInfo';
+// Removida a importação de ChairYogaInfo
 import TargetZones from './components/TargetZones';
 import BodyType from './components/BodyType';
 import DreamBody from './components/DreamBody';
@@ -27,14 +27,13 @@ import PlanReady from './components/PlanReady';
 import SalesPage from './components/SalesPage';
 import Checkout from './components/Checkout';
 import SuccessPage from './components/SuccessPage';
-import ProgressBar from './components/ProgressBar'; // Novo import
+import ProgressBar from './components/ProgressBar';
 
 function App() {
   const location = useLocation();
   return (
     <div className="min-h-screen bg-white flex flex-col overflow-hidden">
       <QuizProvider>
-        {/* Barra de progresso adicionada aqui */}
         <ProgressBar />
         
         <AnimatePresence mode="wait" initial={false}>
@@ -44,7 +43,7 @@ function App() {
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/goals" element={<GoalsSelection />} />
             <Route path="/chair-yoga-experience" element={<ChairYogaExperience />} />
-            <Route path="/chair-yoga-info" element={<ChairYogaInfo />} />
+            {/* Removida a rota para ChairYogaInfo */}
             <Route path="/target-zones" element={<TargetZones />} />
             <Route path="/body-type" element={<BodyType />} />
             <Route path="/dream-body" element={<DreamBody />} />
