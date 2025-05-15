@@ -5,6 +5,23 @@ import { Lock, CreditCard, Check, Shield, ArrowRight, X, Loader2, Clock, Heart, 
 import Header from './Header';
 import { useQuiz } from '../context/QuizContext';
 
+// Definir estilos keyframes globais
+const shimmerAnimation = `
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+`;
+
+const notificationAnimation = `
+  @keyframes notification {
+    0% { transform: translateY(100%); opacity: 0; }
+    10% { transform: translateY(0); opacity: 1; }
+    90% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+`;
+
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const { selectedPlan, email, setEmail } = useQuiz();
@@ -25,6 +42,19 @@ const Checkout: React.FC = () => {
   const [showSafetyMessage, setShowSafetyMessage] = useState(false);
   const [purchaseStarted, setPurchaseStarted] = useState(false);
 
+  // Adicionar estilos keyframes globais ao carregar o componente
+  useEffect(() => {
+    // Criar elemento de estilo para animações
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = shimmerAnimation + notificationAnimation;
+    document.head.appendChild(styleElement);
+    
+    // Limpar ao desmontar o componente
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
   // Simulação de compras recentes para criar urgência social
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,12 +64,15 @@ const Checkout: React.FC = () => {
         
         // Flash de notificação
         const notification = document.createElement('div');
-        notification.className = 'fixed bottom-4 left-4 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg text-sm flex items-center z-50 animate-notification';
+        notification.className = 'fixed bottom-4 left-4 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg text-sm flex items-center z-50';
+        notification.style.animation = 'notification 3s forwards';
         notification.innerHTML = `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Alguém acabou de adquirir o método!`;
         document.body.appendChild(notification);
         
         setTimeout(() => {
-          notification.remove();
+          if (document.body.contains(notification)) {
+            document.body.removeChild(notification);
+          }
         }, 3000);
       }
     }, 30000);
@@ -435,7 +468,7 @@ const Checkout: React.FC = () => {
                   
                   {/* Efeito de shimmer para chamar atenção para o botão */}
                   <span className="absolute inset-0 w-full h-full overflow-hidden">
-                    <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 -skew-x-12 animate-shimmer"></span>
+                    <span className="absolute top-0 left-0 w-1/3 h-full bg-white/20 -skew-x-12" style={{ animation: 'shimmer 3s infinite' }}></span>
                   </span>
                 </button>
                 
@@ -614,29 +647,6 @@ const Checkout: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      
-      {/* Estilos adicionais */}
-      <style jsx>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
-        
-        .animate-shimmer {
-          animation: shimmer 3s infinite;
-        }
-        
-        @keyframes notification {
-          0% { transform: translateY(100%); opacity: 0; }
-          10% { transform: translateY(0); opacity: 1; }
-          90% { transform: translateY(0); opacity: 1; }
-          100% { transform: translateY(100%); opacity: 0; }
-        }
-        
-        .animate-notification {
-          animation: notification 3s forwards;
-        }
-      `}</style>
     </div>
   );
 };
