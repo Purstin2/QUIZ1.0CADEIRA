@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useQuiz } from '../context/QuizContext';
-import Header from './Header';
 import AnimatedPage from './AnimatedPage';
 
 const ChairYogaExperience: React.FC = () => {
@@ -36,10 +35,7 @@ const ChairYogaExperience: React.FC = () => {
 
   const handleSelect = (value: string) => {
     setSelected(value);
-    
-    // Armazenar resposta e navegar após breve atraso
     setChairYogaExperience(value as 'never' | 'tried' | 'regular');
-    
     setTimeout(() => {
       navigate('/chair-yoga-info');
     }, 300);
@@ -47,9 +43,7 @@ const ChairYogaExperience: React.FC = () => {
 
   return (
     <AnimatedPage>
-      <div className="flex flex-col min-h-screen bg-white">
-        <Header />
-        
+      <div className="flex flex-col min-h-screen bg-white pt-6">
         {/* Mensagem de confirmação sutil */}
         <motion.div 
           className="w-full max-w-md mx-auto px-4 mt-2"
@@ -77,7 +71,6 @@ const ChairYogaExperience: React.FC = () => {
                 Qual é o seu nível de experiência?
               </h2>
               
-              {/* Explicação de Yoga na Cadeira */}
               <div className="bg-blue-50 rounded-xl p-4 mb-6">
                 <p className="text-sm text-blue-800">
                   <span className="font-medium">Yoga na Cadeira</span> são exercícios adaptados que podem ser realizados sentado, ideais para quem tem mobilidade limitada ou passa muito tempo sentado. Combinam movimentos suaves, respiração e posturas adaptadas.
@@ -108,8 +101,6 @@ const ChairYogaExperience: React.FC = () => {
                   <div className="text-left flex-1">
                     <div className="font-medium text-gray-800">{option.label}</div>
                     <div className="text-sm text-gray-500">{option.description}</div>
-                    
-                    {/* Benefício destacado */}
                     <div className="mt-1 text-xs text-[#7432B4] font-medium">
                       {option.benefit}
                     </div>
@@ -117,18 +108,7 @@ const ChairYogaExperience: React.FC = () => {
                 </motion.button>
               ))}
             </div>
-            
-            {/* Elemento de redução de atrito */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="text-center text-sm text-gray-500 max-w-md mx-auto px-6"
-            >
-              <p>
-                Não se preocupe, nosso programa funciona para todos os níveis de experiência.
-              </p>
-            </motion.div>
+           
           </div>
         </main>
       </div>
