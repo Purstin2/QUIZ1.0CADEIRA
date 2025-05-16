@@ -28,6 +28,7 @@ import SalesPage from './components/SalesPage';
 import Checkout from './components/Checkout';
 import SuccessPage from './components/SuccessPage';
 import ProgressBar from './components/ProgressBar';
+import ExitIntentModal from './components/ExitIntentModal';
 
 function App() {
   const location = useLocation();
@@ -65,6 +66,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
+        <ExitIntentModal />
         <QuickNav />
       </QuizProvider>
     </div>

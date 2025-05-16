@@ -23,6 +23,7 @@ import confetti from 'canvas-confetti';
 import Header from './Header';
 import AnimatedPage from './AnimatedPage';
 import { useQuiz } from '../context/QuizContext';
+import MethodPreview from './MethodPreview';
 
 const PlanReady: React.FC = () => {
   const navigate = useNavigate();
@@ -669,6 +670,9 @@ const PlanReady: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Prévia do método */}
+                <MethodPreview />
+
                 {/* Botão de ação principal */}
                 <motion.button
                   onClick={handleClaim}
@@ -704,7 +708,6 @@ const PlanReady: React.FC = () => {
                       repeatDelay: 3,
                     }}
                   />
-
                   {/* Texto do botão baseado no estado */}
                   <span className="relative z-10">
                     {claimingStatus === 'idle' && <>Ver Meu Plano Completo</>}

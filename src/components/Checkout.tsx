@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, CreditCard, Check, Shield, ArrowRight, X, Loader2, Clock, Heart, Users, Mail, CheckCircle } from 'lucide-react';
 import Header from './Header';
 import { useQuiz } from '../context/QuizContext';
+import EnhancedGuaranteeTag from './EnhancedGuaranteeTag';
 
 // Definir estilos keyframes globais
 const shimmerAnimation = `
