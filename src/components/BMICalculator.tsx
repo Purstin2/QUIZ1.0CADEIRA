@@ -248,30 +248,7 @@ const BMICalculator: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Benefícios esperados */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-[#7432B4]/10 rounded-xl p-4 mb-6"
-          >
-            <h3 className="font-semibold text-[#2D1441] mb-3 flex items-center gap-2">
-              <Heart className="w-5 h-5 text-[#7432B4]" />
-              <span>Benefícios esperados com seu método:</span>
-            </h3>
-            <div className="space-y-2 text-sm">
-              {yogaBenefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                >
-                  {benefit}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          
 
           {/* Botão de continuar */}
           <motion.button

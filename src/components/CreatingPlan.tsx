@@ -1,4 +1,3 @@
-// Correção da linha de importação no topo do arquivo
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +16,7 @@ import {
   Users,
   Brain,
   Sparkles,
-  Target, // Adicionando Target aqui
+  Target,
   Activity,
   Calendar,
   TrendingDown,
@@ -88,21 +87,14 @@ const CreatingPlan: React.FC = () => {
 
   // Inicializa o contexto de áudio na primeira interação do usuário
   useEffect(() => {
-    // Só criamos o contexto de áudio uma vez
     if (!audioContext.current) {
-      // Criamos o contexto em uma função que será chamada no primeiro clique ou interação do usuário
+  {
       const setupAudio = () => {
-        // Cria o contexto de áudio
-        audioContext.current = new (window.AudioContext ||
-          (window as any).webkitAudioContext)();
-        // Remove o event listener depois que o áudio estiver configurado
+        const SituationalAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        audioContext.current = SituationalAudioContext;
         document.removeEventListener('click', setupAudio);
       };
-
-      // Adiciona o event listener para iniciar o áudio quando o usuário interagir pela primeira vez
       document.addEventListener('click', setupAudio);
-
-      // Limpeza quando o componente desmontar
       return () => {
         document.removeEventListener('click', setupAudio);
         if (audioContext.current && audioContext.current.state !== 'closed') {
@@ -112,31 +104,22 @@ const CreatingPlan: React.FC = () => {
     }
   }, []);
 
-  // Função para tocar um som de milestone atingido
   const playMilestoneSound = (milestoneIndex: number) => {
     if (!audioContext.current) return;
 
     try {
       const oscillator = audioContext.current.createOscillator();
       const gainNode = audioContext.current.createGain();
-
-      // Diferentes frequências baseadas no milestone (notas musicais ascendentes)
-      const frequencies = [330, 392, 440, 494, 523]; // Notas musicais Mi, Sol, Lá, Si, Dó
+      const frequencies = [330, 392, 440, 494, 523];
       oscillator.frequency.value =
         frequencies[milestoneIndex % frequencies.length];
-
-      // Configurar o tipo de onda e conectar ao nó de ganho (volume)
       oscillator.type = 'sine';
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.current.destination);
-
-      // Configurar envelope de amplitude (ADSR simplificado)
       const now = audioContext.current.currentTime;
       gainNode.gain.setValueAtTime(0, now);
       gainNode.gain.linearRampToValueAtTime(0.2, now + 0.01);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-
-      // Iniciar e parar o oscilador
       oscillator.start(now);
       oscillator.stop(now + 0.5);
     } catch (error) {
@@ -144,30 +127,22 @@ const CreatingPlan: React.FC = () => {
     }
   };
 
-  // Função para tocar som de conclusão/sucesso
   const playSuccessSound = () => {
     if (!audioContext.current) return;
 
     try {
-      // Criamos vários osciladores para um acorde
-      const chord = [523.25, 659.25, 783.99]; // Dó, Mi, Sol (Acorde de Dó maior)
-
+      const chord = [523.25, 659.25, 783.99];
       chord.forEach((frequency, index) => {
         const oscillator = audioContext.current!.createOscillator();
         const gainNode = audioContext.current!.createGain();
-
         oscillator.frequency.value = frequency;
         oscillator.type = index === 0 ? 'sine' : 'triangle';
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.current!.destination);
-
-        // Volume mais alto e duração mais longa para o som de sucesso
         const now = audioContext.current!.currentTime;
         gainNode.gain.setValueAtTime(0, now);
         gainNode.gain.linearRampToValueAtTime(0.1, now + 0.02);
         gainNode.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
-
-        // Adiciona um pequeno atraso para o efeito de arpejo
         const startTime = now + index * 0.08;
         oscillator.start(startTime);
         oscillator.stop(startTime + 1.5);
@@ -177,7 +152,6 @@ const CreatingPlan: React.FC = () => {
     }
   };
 
-  // Função para tocar som de destaque para unlock
   const playUnlockSound = () => {
     if (!audioContext.current) return;
 
@@ -185,22 +159,17 @@ const CreatingPlan: React.FC = () => {
       const oscillator1 = audioContext.current.createOscillator();
       const oscillator2 = audioContext.current.createOscillator();
       const gainNode = audioContext.current.createGain();
-
       oscillator1.frequency.value = 600;
       oscillator2.frequency.value = 900;
-
       oscillator1.type = 'triangle';
       oscillator2.type = 'sine';
-
       oscillator1.connect(gainNode);
       oscillator2.connect(gainNode);
       gainNode.connect(audioContext.current.destination);
-
       const now = audioContext.current.currentTime;
       gainNode.gain.setValueAtTime(0, now);
       gainNode.gain.linearRampToValueAtTime(0.2, now + 0.05);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
-
       oscillator1.start(now);
       oscillator2.start(now + 0.1);
       oscillator1.stop(now + 0.8);
@@ -210,7 +179,6 @@ const CreatingPlan: React.FC = () => {
     }
   };
 
-  // Configuração de milestones para feedback visual - expandido com muito mais detalhes
   const milestones = [
     {
       threshold: 10,
@@ -254,7 +222,7 @@ const CreatingPlan: React.FC = () => {
       icon: <Target className="text-green-600" />,
       activities: [
         `Intensificando foco em ${getPersonalizedBenefit()}`,
-        'Equilibrando exercícios para resultados completos',
+        'Equilibrando exercícios para resultados completeos',
         'Criando progressão adaptativa para evolução constante',
       ],
     },
@@ -290,7 +258,6 @@ const CreatingPlan: React.FC = () => {
     },
   ];
 
-  // Dados de elementos do plano que serão "desbloqueados" durante a criação
   const planElements = [
     {
       label: 'Rotina Diária',
@@ -310,7 +277,7 @@ const CreatingPlan: React.FC = () => {
     },
     {
       label: 'Plano de Progressão',
-      description: 'Evolução inteligente sem sobrecargas ou lesões',
+      description: 'Evolução intelligente sem sobrecargas ou lesões',
       icon: <TrendingDown className="w-4 h-4" />,
       unlockAt: 55,
     },
@@ -335,7 +302,6 @@ const CreatingPlan: React.FC = () => {
     },
   ];
 
-  // Animação de partículas para celebração
   const triggerConfetti = () => {
     confetti({
       particleCount: 100,
@@ -343,16 +309,12 @@ const CreatingPlan: React.FC = () => {
       origin: { y: 0.6, x: 0.5 },
       colors: ['#7432B4', '#9747FF', '#FFD700'],
     });
-
-    // Toca o som de sucesso quando o confetti aparecer
     playSuccessSound();
   };
 
-  // Animação de progresso e redirecionamento sincronizado
   useEffect(() => {
-    // Determinar o tempo total baseado na velocidade escolhida
-    const totalTime = fastForward ? 2500 : 6000;
-    const interval = 50; // Atualiza a cada 50ms para animação mais suave
+    const totalTime = fastForward ? 1250 : 3000;
+    const interval = 50;
     const steps = totalTime / interval;
     const increment = 100 / steps;
 
@@ -363,7 +325,6 @@ const CreatingPlan: React.FC = () => {
       const newValue = Math.min(Math.round(step * increment), 100);
       setProgressPercentage(newValue);
 
-      // Verificar e adicionar elementos desbloqueados
       planElements.forEach((element) => {
         if (
           newValue >= element.unlockAt &&
@@ -376,21 +337,14 @@ const CreatingPlan: React.FC = () => {
             setGeneratingSpecial(element.label);
             setTimeout(() => setGeneratingSpecial(null), 2000);
           }
-
-          // Som de desbloqueio
           playUnlockSound();
         }
       });
 
-      // Atualiza o milestone atual baseado no progresso
       for (let i = milestones.length - 1; i >= 0; i--) {
         if (newValue >= milestones[i].threshold && currentMilestone < i) {
           setCurrentMilestone(i);
-
-          // Toca som quando atingir um novo milestone
           playMilestoneSound(i);
-
-          // Pequeno confetti ao atingir cada milestone exceto o final
           if (i < milestones.length - 1) {
             confetti({
               particleCount: 30,
@@ -403,7 +357,6 @@ const CreatingPlan: React.FC = () => {
         }
       }
 
-      // Quando chegar a 100%, mostra achievement e redireciona depois
       if (newValue >= 100) {
         clearInterval(animationInterval);
         triggerConfetti();
@@ -424,7 +377,6 @@ const CreatingPlan: React.FC = () => {
         <Header />
         <main className="flex-1 px-6 py-5 flex flex-col items-center">
           <div className="max-w-lg w-full mx-auto">
-            {/* Indicador de progresso circular animado */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -432,10 +384,7 @@ const CreatingPlan: React.FC = () => {
               className="flex justify-center mb-4"
             >
               <div className="relative w-28 h-28">
-                {/* Círculo de fundo */}
                 <div className="absolute inset-0 rounded-full border-8 border-purple-100"></div>
-
-                {/* Círculo de progresso com gradiente e animação */}
                 <svg
                   className="absolute inset-0 w-full h-full"
                   viewBox="0 0 100 100"
@@ -475,8 +424,6 @@ const CreatingPlan: React.FC = () => {
                     transition={{ type: 'tween', ease: 'linear' }}
                   />
                 </svg>
-
-                {/* Texto de porcentagem animado */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <motion.span
                     className="text-xl font-bold text-[#2D1441]"
@@ -493,8 +440,6 @@ const CreatingPlan: React.FC = () => {
                     {progressPercentage}%
                   </motion.span>
                 </div>
-
-                {/* Ícone de milestone atual com animação */}
                 <AnimatePresence>
                   {progressPercentage === 100 && (
                     <motion.div
@@ -509,8 +454,6 @@ const CreatingPlan: React.FC = () => {
                 </AnimatePresence>
               </div>
             </motion.div>
-
-            {/* Status atual */}
             <motion.div
               key={currentMilestone}
               initial={{ opacity: 0, y: -10 }}
@@ -530,15 +473,12 @@ const CreatingPlan: React.FC = () => {
                   {milestones[currentMilestone].title}
                 </h2>
               </div>
-
               <p className="text-sm text-gray-600">
                 {progressPercentage < 100
                   ? 'Seu plano único está sendo criado com base nas suas respostas'
                   : 'Seu plano personalizado está pronto!'}
               </p>
             </motion.div>
-
-            {/* Notificação de risco para IMC alto - Aumente a urgência */}
             {bodyMassIndex > 25 &&
               progressPercentage > 15 &&
               progressPercentage < 75 && (
@@ -566,14 +506,11 @@ const CreatingPlan: React.FC = () => {
                   </div>
                 </motion.div>
               )}
-
-            {/* Atividades atuais - animado e detalhado */}
             <div className="bg-white rounded-lg border border-gray-100 p-4 shadow-sm mb-5">
               <h3 className="font-medium text-[#2D1441] mb-3 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-[#7432B4]" />
                 <span>Atividades em processamento</span>
               </h3>
-
               <div className="space-y-3">
                 {milestones[currentMilestone].activities.map(
                   (activity, idx) => (
@@ -600,14 +537,11 @@ const CreatingPlan: React.FC = () => {
                 )}
               </div>
             </div>
-
-            {/* Elementos do plano desbloqueados - Gamificação forte */}
             <div className="mb-5 bg-gradient-to-r from-[#7432B4]/5 to-[#7432B4]/10 rounded-lg border border-purple-100 p-4">
               <h3 className="font-medium text-[#2D1441] mb-3 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#7432B4]" />
                 <span>Elementos do seu plano</span>
               </h3>
-
               <div className="grid grid-cols-2 gap-3">
                 {planElements.map((element, idx) => {
                   const isUnlocked = completedActivities.includes(
@@ -638,70 +572,66 @@ const CreatingPlan: React.FC = () => {
                               ],
                             }
                           : {}
-                      }
-                      transition={{ duration: 0.8 }}
-                    >
-                      <div className="flex items-start gap-2 mb-1">
-                        <div
-                          className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center ${
-                            isGeneratingSpecial
-                              ? 'bg-yellow-400 text-white'
-                              : isUnlocked
-                              ? 'bg-green-100 text-green-600'
-                              : 'bg-gray-100 text-gray-400'
-                          }`}
-                        >
-                          {isUnlocked ? (
-                            <CheckCircle className="w-3 h-3" />
-                          ) : (
-                            element.icon
-                          )}
-                        </div>
-                        <div
-                          className={`text-sm font-medium ${
-                            isGeneratingSpecial
-                              ? 'text-yellow-800'
-                              : isUnlocked
-                              ? 'text-gray-800'
-                              : 'text-gray-400'
-                          }`}
-                        >
-                          {element.label}
-                        </div>
-                      </div>
-                      <p
-                        className={`text-xs pl-8 ${
+                     bob{
+                    }
+                    transition={{ duration: 0.8 }}
+                  >
+                    <div className="flex items-start gap-2 mb-1">
+                      <div
+                        className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center ${
                           isGeneratingSpecial
-                            ? 'text-yellow-700'
+                            ? 'bg-yellow-400 text-white'
                             : isUnlocked
-                            ? 'text-gray-600'
+                            ? 'bg-green-100 text-green-600'
+                            : 'bg-gray-100 text-gray-400'
+                        }`}
+                      >
+                        {isUnlocked ? (
+                          <CheckCircle className="w-3 h-3" />
+                        ) : (
+                          element.icon
+                        )}
+                      </div>
+                      <div
+                        className={`text-sm font-medium ${
+                          isGeneratingSpecial
+                            ? 'text-yellow-800'
+                            : isUnlocked
+                            ? 'text-gray-800'
                             : 'text-gray-400'
                         }`}
                       >
-                        {element.description}
-                      </p>
-
-                      {/* Tag especial */}
-                      {element.special && (
-                        <div className="mt-1 pl-8">
-                          <span
-                            className={`inline-block text-[10px] px-1.5 py-0.5 rounded ${
-                              isUnlocked
-                                ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-gray-100 text-gray-400'
-                            }`}
-                          >
-                            CONTEÚDO EXCLUSIVO
-                          </span>
-                        </div>
-                      )}
-                    </motion.div>
-                  );
-                })}
+                        {element.label}
+                      </div>
+                    </div>
+                    < paredes
+                      className={`text-xs pl-8 ${
+                        isGeneratingSpecial
+                          ? 'text-yellow-700'
+                          : isUnlocked
+                          ? 'text-gray-600'
+                          : 'text-gray-400'
+                      }`}
+                    >
+                      {element.description}
+                    </p>
+                    {element.special && (
+                      <div className="mt-1 pl-8">
+                        <span
+                          className={`inline-block text-[10px] px-1.5 py-0.5 rounded ${
+                            isUnlocked
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : 'bg-gray-100 text-gray-400'
+                          }`}
+                        >
+                          CONTEÚDO EXCLUSIVO
+                        </span>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
               </div>
             </div>
-
-            {/* Achievement Card */}
             <AnimatePresence>
               {showAchievement && (
                 <motion.div
@@ -711,7 +641,6 @@ const CreatingPlan: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                   className="mb-5 bg-gradient-to-r from-purple-600 to-purple-800 rounded-xl p-5 text-white shadow-lg overflow-hidden relative"
                 >
-                  {/* Overlay de partículas */}
                   {Array.from({ length: 20 }).map((_, i) => (
                     <motion.div
                       key={i}
@@ -734,7 +663,6 @@ const CreatingPlan: React.FC = () => {
                       }}
                     />
                   ))}
-
                   <div className="flex flex-col sm:flex-row items-center gap-4">
                     <div className="relative">
                       <motion.div
@@ -759,7 +687,6 @@ const CreatingPlan: React.FC = () => {
                         +1
                       </motion.div>
                     </div>
-
                     <div className="flex-1 text-center sm:text-left">
                       <h3 className="font-bold text-xl mb-1">
                         Conquista Desbloqueada!
@@ -787,8 +714,6 @@ const CreatingPlan: React.FC = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Elemento de velocidade - Redução do atrito */}
             {!showAchievement && !fastForward && progressPercentage < 40 && (
               <motion.button
                 onClick={() => setFastForward(true)}
@@ -799,8 +724,6 @@ const CreatingPlan: React.FC = () => {
                 Processar mais rápido
               </motion.button>
             )}
-
-            {/* Nota de rodapé */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

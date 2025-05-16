@@ -304,7 +304,7 @@ const PlanDefinitive: React.FC = () => {
                 transition={{ delay: 0.2, duration: 1, repeat: 2 }}
               >
                 <CheckCircle className="w-4 h-4" />
-                <span>VOCÊ FOI APROVADO(A) PARA O PROGRAMA</span>
+                <span>VOCÊ FOI APROVADA PARA O PROGRAMA</span>
               </motion.div>
 
               <h2 className="text-xl font-bold text-[#2D1441] mb-2">
