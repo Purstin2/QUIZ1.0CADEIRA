@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 type AgeRange = '35-44' | '45-54' | '55-64' | '65+' | null;
 type Sex = 'female' | 'male' | null;
 type ChairYogaExperience = 'regular' | 'tried' | 'never' | null;
-type BodyType = 'slim' | 'average' | 'plus' | null;
+type BodyType = 'normal' | 'curvy' | 'plus' | null;
 type DreamBody = 'fit' | 'athletic' | 'shapely' | 'content' | null;
 
 export interface Goal {
@@ -72,30 +72,28 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   const [selectedPlan, setSelectedPlan] = useState<'starter' | 'complete' | 'premium' | null>('complete');
   const [email, setEmail] = useState<string | null>(null);
 
+  // Sequência de quiz atualizada com o novo fluxo otimizado
   const quizSequence = [
     '/',                         // Age Selection
     '/sex-selection',            // Sex Selection
     '/community',                // Community Page
     '/goals',                    // Goals Selection
     '/chair-yoga-experience',    // Chair Yoga Experience
-    // '/chair-yoga-info' removido daqui
+    '/target-zones',             // Target Zones
     '/body-type',                // Body Type
     '/dream-body',               // Dream Body
     '/activity-level',           // Activity Level
     '/walking-time',             // Walking Time
     '/yoga-level',               // Yoga Level
     '/sensitivity-check',        // Sensitivity Check
-    '/support-step',             // Suporte emocional ou etapa extra
-    '/exercise-style', 
-    '/available-time', 
-    '/bmi-calculator', 
-    '/profile-summary',
-    '/plan-definitive',
-    '/creating-plan',
-    '/plan-ready',
-    '/sales',
-    '/checkout',
-    '/success'
+    '/support-step',             // Suporte emocional ou etapa extra (condicional)
+    '/exercise-style',           // Exercise Style Preference
+    '/available-time',           // Available Time
+    '/bmi-calculator',           // BMI Calculator
+    '/unified-results',          // Nova página unificada de resultados (substitui 4 páginas)
+    '/sales',                    // Sales Page
+    '/checkout',                 // Checkout
+    '/success'                   // Success Page
   ];
 
   const getNextRoute = (currentRoute: string): string => {

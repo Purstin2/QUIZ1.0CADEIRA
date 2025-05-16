@@ -9,32 +9,30 @@ const QuickNav: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [isDev, setIsDev] = useState(true); // Toggle para controlar exibição em produção
 
-  const routes = [
-    { path: '/', label: 'Age Selection' },
-    { path: '/sex-selection', label: 'Sex Selection' },
-    { path: '/community', label: 'Community Page' },
-    { path: '/goals', label: 'Goals Selection' },
-    { path: '/confirmation', label: 'Confirmation Page' },
-    { path: '/chair-yoga-experience', label: 'Chair Yoga Experience' },
-    { path: '/target-zones', label: 'Target Zones' },
-    { path: '/body-type', label: 'Body Type' },
-    { path: '/dream-body', label: 'Dream Body' },
-    { path: '/activity-level', label: 'Activity Level' },
-    { path: '/walking-time', label: 'Walking Time' },
-    { path: '/yoga-level', label: 'Yoga Level' },
-    { path: '/sensitivity-check', label: 'Sensitivity Check' },
-    { path: '/support-step', label: 'Support Step' },
-    { path: '/exercise-style', label: 'Exercise Style' },
-    { path: '/available-time', label: 'Available Time' },
-    { path: '/bmi-calculator', label: 'BMI Calculator' },
-    { path: '/profile-summary', label: 'Profile Summary' },
-    { path: '/plan-definitive', label: 'Plan Definitive' },
-    { path: '/creating-plan', label: 'Creating Plan' },
-    { path: '/plan-ready', label: 'Plan Ready' },
-    { path: '/sales', label: 'Sales Page' },
-    { path: '/checkout', label: 'Checkout' },
-    { path: '/success', label: 'Success' }
-  ];
+  // Adicionar a nova rota no arquivo QuickNav.tsx (dentro da constante routes)
+const routes = [
+  { path: '/', label: 'Age Selection' },
+  { path: '/sex-selection', label: 'Sex Selection' },
+  { path: '/community', label: 'Community Page' },
+  { path: '/goals', label: 'Goals Selection' },
+  { path: '/confirmation', label: 'Confirmation Page' },
+  { path: '/chair-yoga-experience', label: 'Chair Yoga Experience' },
+  { path: '/target-zones', label: 'Target Zones' },
+  { path: '/body-type', label: 'Body Type' },
+  { path: '/dream-body', label: 'Dream Body' },
+  { path: '/activity-level', label: 'Activity Level' },
+  { path: '/walking-time', label: 'Walking Time' },
+  { path: '/yoga-level', label: 'Yoga Level' },
+  { path: '/sensitivity-check', label: 'Sensitivity Check' },
+  { path: '/support-step', label: 'Support Step' },
+  { path: '/exercise-style', label: 'Exercise Style' },
+  { path: '/available-time', label: 'Available Time' },
+  { path: '/bmi-calculator', label: 'BMI Calculator' },
+  { path: '/unified-results', label: 'Unified Results' }, // Nova rota
+  { path: '/sales', label: 'Sales Page' },
+  { path: '/checkout', label: 'Checkout' },
+  { path: '/success', label: 'Success' }
+];
 
   const currentIndex = routes.findIndex(route => route.path === location.pathname);
   const hasPrev = currentIndex > 0;
