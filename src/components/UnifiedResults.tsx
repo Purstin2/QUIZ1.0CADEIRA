@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import {
-  CheckCircle,
-  Heart,
-  Shield,
-  Target,
-  TrendingDown,
-  Calendar,
-  Activity,
-  Star,
-  Award,
-  ArrowRight,
-  AlertTriangle,
-  Users,
-} from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { motion } from 'framer-motion';
+import { Heart, AlertCircle, TrendingDown, Shield } from 'lucide-react';
+import { useQuiz } from '../context/QuizContext';
 import Header from './Header';
 import AnimatedPage from './AnimatedPage';
-import { useQuiz } from '../context/QuizContext';
 
 const UnifiedResults: React.FC = () => {
   const navigate = useNavigate();
@@ -33,6 +19,31 @@ const UnifiedResults: React.FC = () => {
     availableTime,
   } = useQuiz();
 
+  // Log inicial para depuração
+  console.log('UnifiedResults montado', {
+    goals,
+    bodyType,
+    ageRange,
+    bodyMassIndex,
+    dreamBody,
+    chairYogaExperience,
+    exerciseStyle,
+    availableTime,
+  });
+
+  // Verificar dados obrigatórios
+  if (!goals || !ageRange || bodyMassIndex === null) {
+    console.warn('Dados obrigatórios ausentes, redirecionando para /');
+    navigate('/');
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">
+          Erro: Complete todas as etapas do quiz antes de acessar os resultados.
+        </p>
+      </div>
+    );
+  }
+
   const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
@@ -42,11 +53,14 @@ const UnifiedResults: React.FC = () => {
 
   // Efeitos de animação e carregamento
   useEffect(() => {
-    // Simular processo de criação do plano - máximo 3 segundos
+    console.log('useEffect iniciado');
+
+    // Simular processo de criação do plano
     const loadingTimer = setTimeout(() => {
+      console.log('Loading finalizado');
       setLoading(false);
       setShowResults(true);
-      
+
       // Disparar confete após resultados aparecerem
       setTimeout(() => {
         confetti({
@@ -57,10 +71,10 @@ const UnifiedResults: React.FC = () => {
         });
       }, 500);
     }, 2000);
-    
+
     // Simular progresso
     const progressInterval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
@@ -68,53 +82,61 @@ const UnifiedResults: React.FC = () => {
         return prev + 4;
       });
     }, 80);
-    
+
     // Ciclar entre depoimentos
     const testimonialInterval = setInterval(() => {
-      setCurrentTestimonialIndex(prev => (prev + 1) % testimonials.length);
+      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
-    
-    // Simular outras pessoas reservando vagas (escassez social)
+
+    // Simular outras pessoas reservando vagas
     const reservationInterval = setInterval(() => {
       if (Math.random() > 0.7 && !loading) {
-        setReservationCount(prev => Math.max(0, prev - 1));
+        setReservationCount((prev) => Math.max(0, prev - 1));
         setShowReservation(true);
         setTimeout(() => setShowReservation(false), 5000);
       }
     }, 15000);
-    
+
     return () => {
+      console.log('useEffect cleanup');
       clearTimeout(loadingTimer);
       clearInterval(progressInterval);
       clearInterval(testimonialInterval);
       clearInterval(reservationInterval);
     };
-  }, [loading]);
+  }, []); // Dependências vazias para executar apenas uma vez
 
   // Calcular dados personalizados com base no perfil
   const personalizedData = React.useMemo(() => {
+    if (!bodyMassIndex || !goals) {
+      console.warn('Dados insuficientes para calcular personalizedData');
+      return {
+        currentWeight: 70,
+        targetWeight: 65,
+        targetDate: new Date(),
+        weightDifference: 5,
+        totalDays: 21,
+      };
+    }
+
     const estimatedHeight = 1.7; // metros (simplificação)
-    const currentWeight = bodyMassIndex
-      ? Math.round(bodyMassIndex * (estimatedHeight * estimatedHeight))
-      : 70;
+    const currentWeight = Math.round(
+      bodyMassIndex * (estimatedHeight * estimatedHeight)
+    );
 
     // Definir peso alvo baseado no IMC e objetivos
     let targetWeight;
-    if (bodyMassIndex) {
-      if (bodyMassIndex > 25) {
-        targetWeight = Math.round(24 * (estimatedHeight * estimatedHeight));
-      } else if (bodyMassIndex < 18.5) {
-        targetWeight = Math.round(19 * (estimatedHeight * estimatedHeight));
-      } else {
-        const hasWeightLossGoal = goals.some(
-          (g) => g.id === 'lose-weight' && g.selected
-        );
-        targetWeight = hasWeightLossGoal
-          ? Math.round(currentWeight * 0.95)
-          : Math.round(currentWeight);
-      }
+    if (bodyMassIndex > 25) {
+      targetWeight = Math.round(24 * (estimatedHeight * estimatedHeight));
+    } else if (bodyMassIndex < 18.5) {
+      targetWeight = Math.round(19 * (estimatedHeight * estimatedHeight));
     } else {
-      targetWeight = bodyType === 'plus' ? 65 : 60;
+      const hasWeightLossGoal = goals.some(
+        (g) => g.id === 'lose-weight' && g.selected
+      );
+      targetWeight = hasWeightLossGoal
+        ? Math.round(currentWeight * 0.95)
+        : Math.round(currentWeight);
     }
 
     // Calcular diferença de peso
@@ -175,8 +197,8 @@ const UnifiedResults: React.FC = () => {
 
   // Depoimentos personalizados
   const testimonials = React.useMemo(() => {
-    const hasWeightLossGoal = goals.some(g => g.id === 'lose-weight' && g.selected);
-    const hasMobilityGoal = goals.some(g => g.id === 'improve-mobility' && g.selected);
+    const hasWeightLossGoal = goals.some((g) => g.id === 'lose-weight' && g.selected);
+    const hasMobilityGoal = goals.some((g) => g.id === 'improve-mobility' && g.selected);
 
     const baseTestimonials = [
       {
@@ -243,7 +265,7 @@ const UnifiedResults: React.FC = () => {
     <AnimatedPage>
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#F7F3FF] to-white">
         <Header />
-        
+
         {/* Tela de carregamento */}
         {loading && (
           <div className="flex-1 flex flex-col items-center justify-center px-6">
@@ -251,7 +273,15 @@ const UnifiedResults: React.FC = () => {
               <div className="mb-6">
                 <div className="relative w-24 h-24 mx-auto mb-4">
                   <svg className="w-24 h-24" viewBox="0 0 100 100">
-                    <circle className="text-purple-100" strokeWidth="8" stroke="currentColor" fill="transparent" r="42" cx="50" cy="50" />
+                    <circle
+                      className="text-purple-100"
+                      strokeWidth="8"
+                      stroke="currentColor"
+                      fill="transparent"
+                      r="42"
+                      cx="50"
+                      cy="50"
+                    />
                     <motion.circle
                       className="text-[#7432B4]"
                       strokeWidth="8"
@@ -269,7 +299,9 @@ const UnifiedResults: React.FC = () => {
                     {progress}%
                   </div>
                 </div>
-                <h2 className="text-xl font-bold text-[#2D1441] mb-2">Criando seu plano personalizado</h2>
+                <h2 className="text-xl font-bold text-[#2D1441] mb-2">
+                  Criando seu plano personalizado
+                </h2>
                 <p className="text-sm text-gray-600">
                   Analisando seu perfil e adaptando exercícios especificamente para você...
                 </p>
@@ -302,7 +334,8 @@ const UnifiedResults: React.FC = () => {
                   {getPlanName()}
                 </h2>
                 <p className="text-sm text-gray-600 mb-2">
-                  Alcance {personalizedData.targetWeight}kg até {formatDate(personalizedData.targetDate)} com exercícios personalizados
+                  Alcance {personalizedData.targetWeight}kg até{' '}
+                  {formatDate(personalizedData.targetDate)} com exercícios personalizados
                 </p>
 
                 {/* Label de vagas limitadas */}
@@ -339,11 +372,12 @@ const UnifiedResults: React.FC = () => {
                   <div className="p-4 text-center">
                     <div className="text-gray-500 text-xs mb-1">Diferença</div>
                     <div className="text-xl font-bold text-amber-500">
-                      {personalizedData.currentWeight >
-                      personalizedData.targetWeight
+                      {personalizedData.currentWeight > personalizedData.targetWeight
                         ? '- '
                         : '+ '}
-                      {Math.round(Math.abs(personalizedData.currentWeight - personalizedData.targetWeight) * 10) / 10}{' '}
+                      {Math.round(
+                        Math.abs(personalizedData.currentWeight - personalizedData.targetWeight) * 10
+                      ) / 10}{' '}
                       kg
                     </div>
                   </div>
@@ -446,15 +480,21 @@ const UnifiedResults: React.FC = () => {
                   {/* Legenda do gráfico */}
                   <div className="flex justify-between items-center text-xs text-gray-500">
                     <div className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
+                      <div className="w-3 h-3">
+                        <Calendar className="w-full h-full" />
+                      </div>
                       <span>Hoje</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Activity className="w-3 h-3" />
+                      <div className="w-3 h-3">
+                        <Activity className="w-full h-full" />
+                      </div>
                       <span>Progresso contínuo</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
+                      <div className="w-3 h-3">
+                        <Calendar className="w-full h-full" />
+                      </div>
                       <span>{formatDate(personalizedData.targetDate)}</span>
                     </div>
                   </div>
@@ -489,9 +529,7 @@ const UnifiedResults: React.FC = () => {
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between items-center">
-                          <div className="font-medium text-gray-800">
-                            {obstacle}
-                          </div>
+                          <div className="font-medium text-gray-800">{obstacle}</div>
                           <div className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs">
                             Resolvido
                           </div>

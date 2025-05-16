@@ -84,23 +84,3 @@ const ExitIntentModal = () => {
 };
 
 export default ExitIntentModal;
-
-// Implementar no App.tsx para que esteja disponível em todas as páginas
-function App() {
-  return (
-    <div className="min-h-screen bg-white flex flex-col overflow-hidden">
-      <QuizProvider>
-        <ProgressBar />
-        
-        <AnimatePresence mode="wait" initial={false}>
-          <Routes location={location} key={location.pathname}>
-            {/* Rotas existentes */}
-          </Routes>
-        </AnimatePresence>
-        
-        <ExitIntentModal />
-        <QuickNav />
-      </QuizProvider>
-    </div>
-  );
-}
