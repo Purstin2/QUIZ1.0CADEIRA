@@ -514,6 +514,7 @@ const ProfileSummary: React.FC = () => {
                     ))}
                   </div>
 
+
                   <div className="mt-4 pt-4 border-t border-gray-100 text-xs text-gray-500 text-center">
                     Percentuais baseados em estudo clínico com 450 participantes
                     após 21 dias de prática
