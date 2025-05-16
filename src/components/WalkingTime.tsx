@@ -39,7 +39,7 @@ const WalkingTime: React.FC = () => {
 
           
 
-          <h2 className="text-2xl font-bold text-[#2D1441] mt-6 mb-6 text-center">
+          <h2 className="text-2xl font-bold text-[#2D1441] mt-20 mb-6 text-center">
               Quanto tempo você passa caminhando em um dia normal?
             </h2>
 

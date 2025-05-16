@@ -43,13 +43,12 @@ const YogaLevel = () => {
     <div className="flex flex-col min-h-screen bg-white p-4">
       <div className="w-full max-w-md mx-auto">
         <div className="mb-6">
-          <div className="text-xs text-center text-purple-700 uppercase mb-2">EXPERIÊNCIA</div>
-          <div className="h-1 w-full bg-gray-100 rounded-full">
-            <div className="h-1 w-4/5 bg-purple-700 rounded-full" />
-          </div>
+
+
+   
         </div>
 
-        <h2 className="text-2xl font-bold text-purple-900 mb-6 text-center">
+        <h2 className="text-2xl font-bold text-[#2D1441] mt-6 mb-6 text-center">
           Escolha seu nível de ioga
         </h2>
 
