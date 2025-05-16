@@ -10,7 +10,7 @@ const CommunityPage: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
+     
         <div className="flex-1 flex flex-col items-center px-4">
           <div className="w-full max-w-md bg-white rounded-3xl shadow-lg overflow-hidden">
             <div className="aspect-[4/3] w-full relative">

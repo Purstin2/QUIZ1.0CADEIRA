@@ -108,7 +108,7 @@ const GoalsSelection: React.FC = () => {
               transition={{ delay: 0.1, duration: 0.5 }}
               className="text-center mb-5"
             >
-              <h2 className="text-xl font-bold text-[#2D1441] mb-2">
+              <h2 className="text-2xl font-bold text-[#2D1441] mb-3 text-center">
                 O que você quer transformar na sua vida?
               </h2>
               <p className="text-gray-600 text-sm">

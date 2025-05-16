@@ -67,7 +67,7 @@ const ChairYogaExperience: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-6"
             >
-              <h2 className="text-xl font-bold text-[#2D1441] mb-4 text-center">
+              <h2 className="text-2xl font-bold text-[#2D1441] mb-8 text-center">
                 Qual é o seu nível de experiência?
               </h2>
               
