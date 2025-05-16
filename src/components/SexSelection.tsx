@@ -16,11 +16,11 @@ const GenderSelection = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-start justify-center w-full pt-12">
-      <div className="flex flex-col items-center w-full max-w-md mx-auto -mt-0">
+    <div className="min-h-screen flex items-start justify-center w-full pt-12 px-4 sm:px-6">
+      <div className="flex flex-col items-center w-full max-w-sm mx-auto -mt-0">
         <h2 className="text-xl font-medium text-gray-800 mb-8">Selecione seu sexo</h2>
 
-        <div className="grid grid-cols-2 gap-6 w-full mb-10">
+        <div className="grid grid-cols-2 gap-2 w-full mb-10">
           <motion.div
             className={`rounded-2xl border p-6 flex flex-col items-center text-center cursor-pointer transition-all ${
               selected === 'female' ? 'border-purple-700 bg-purple-50' : 'border-gray-200'
