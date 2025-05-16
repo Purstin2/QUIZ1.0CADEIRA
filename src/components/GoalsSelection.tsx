@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuiz } from '../context/QuizContext';
 import AnimatedPage from './AnimatedPage';
+import EmailCaptureModal from './EmailCaptureModal';
 
 // Header personalizado sem o texto "OBJETIVOS"
 const CustomHeader = () => {
@@ -24,6 +25,7 @@ const GoalsSelection: React.FC = () => {
   const [focusedGoal, setFocusedGoal] = useState<string | null>(null);
   const [progressStage, setProgressStage] = useState(0);
   const [userInsight, setUserInsight] = useState('');
+  const [showEmailModal, setShowEmailModal] = useState(false);
   
   // Sistema dinâmico de insights personalizados
   const insights = {
@@ -71,28 +73,30 @@ const GoalsSelection: React.FC = () => {
   };
 
   const handleNextStep = () => {
-    if (selectedCount === 0 || isProcessing) return;
-    
-    // Salvar contagem para próxima etapa
-    setSelectedGoalsCount(selectedCount);
-    
-    // Feedback visual de processamento
-    setIsProcessing(true);
-    
-    // Simulação de processamento para aumentar valor percebido
-    setTimeout(() => {
-      setIsProcessing(false);
-      navigate('/chair-yoga-experience');
-    }, 1200);
+    if (selectedCount > 0) {
+      setSelectedGoalsCount(selectedCount);
+      // Mostrar o modal antes de navegar
+      setShowEmailModal(true);
+    }
   };
 
-  // Ordernar objetivos baseado em importância estratégica
+  const handleEmailModalComplete = (emailCaptured = false) => {
+    setShowEmailModal(false);
+    // Se email foi capturado, salvar no contexto
+    if (emailCaptured) {
+      console.log('Email capturado com sucesso!');
+    }
+    // Proceder com a navegação
+    navigate('/chair-yoga-experience');
+  };
+
+  // Ordenar objetivos baseado em importância estratégica
   const prioritizedGoals = [...goals].sort((a, b) => {
     // Objetivos já selecionados vêm primeiro
     if (a.selected && !b.selected) return -1;
     if (!a.selected && b.selected) return 1;
     
-    // Ordernar por ordem de impacto emocional
+    // Ordenar por ordem de impacto emocional
     const priority = {
       'lose-weight': 6,
       'improve-mobility': 5, 
@@ -176,10 +180,6 @@ const GoalsSelection: React.FC = () => {
             
             {/* Área reorganizada de feedback e insights */}
             <div className="space-y-4 mb-5">
-
-              
-              
-              
               {/* Plano premium - visível após 3+ seleções */}
               <AnimatePresence>
                 {progressStage >= 3 && (
@@ -210,33 +210,34 @@ const GoalsSelection: React.FC = () => {
               </AnimatePresence>
             </div>
 
-           {/* Botão de continuar simplificado */}
-<motion.button
-  onClick={() => {
-    if (selectedCount > 0) {
-      setSelectedGoalsCount(selectedCount);
-      navigate('/chair-yoga-experience');
-    }
-  }}
-  className={`w-full font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg transition-all ${
-    selectedCount > 0 
-      ? 'bg-[#7432B4] text-white hover:bg-[#6822A6]' 
-      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-  }`}
-  whileHover={selectedCount > 0 ? { scale: 1.02 } : {}}
-  whileTap={selectedCount > 0 ? { scale: 0.98 } : {}}
-  disabled={selectedCount === 0}
->
-  <span>
-    {selectedCount === 0 
-      ? 'Selecione pelo menos um objetivo' 
-      : `Continuar com ${selectedCount} ${selectedCount === 1 ? 'objetivo' : 'objetivos'}`
-    }
-  </span>
-</motion.button>
+            {/* Botão de continuar corrigido */}
+            <motion.button
+              onClick={handleNextStep}
+              className={`w-full font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg transition-all ${
+                selectedCount > 0 
+                  ? 'bg-[#7432B4] text-white hover:bg-[#6822A6]' 
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
+              whileHover={selectedCount > 0 ? { scale: 1.02 } : {}}
+              whileTap={selectedCount > 0 ? { scale: 0.98 } : {}}
+              disabled={selectedCount === 0}
+            >
+              <span>
+                {selectedCount === 0 
+                  ? 'Selecione pelo menos um objetivo' 
+                  : `Continuar com ${selectedCount} ${selectedCount === 1 ? 'objetivo' : 'objetivos'}`
+                }
+              </span>
+            </motion.button>
           </div>
         </main>
       </div>
+      {showEmailModal && (
+        <EmailCaptureModal 
+          onClose={() => handleEmailModalComplete(false)}
+          onSubmit={(email) => handleEmailModalComplete(true)}
+        />
+      )}
     </AnimatedPage>
   );
 };
