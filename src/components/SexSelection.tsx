@@ -16,8 +16,8 @@ const GenderSelection = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center w-full">
-      <div className="flex flex-col items-center w-full max-w-md mx-auto">
+    <div className="min-h-screen flex items-start justify-center w-full pt-12">
+      <div className="flex flex-col items-center w-full max-w-md mx-auto -mt-0">
         <h2 className="text-xl font-medium text-gray-800 mb-8">Selecione seu sexo</h2>
 
         <div className="grid grid-cols-2 gap-6 w-full mb-10">

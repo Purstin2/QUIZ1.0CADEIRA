@@ -71,11 +71,6 @@ const ChairYogaExperience: React.FC = () => {
                 Qual é o seu nível de experiência?
               </h2>
               
-              <div className="bg-blue-50 rounded-xl p-4 mb-6">
-                <p className="text-sm text-blue-800">
-                  <span className="font-medium">Yoga na Cadeira</span> são exercícios adaptados que podem ser realizados sentado, ideais para quem tem mobilidade limitada ou passa muito tempo sentado. Combinam movimentos suaves, respiração e posturas adaptadas.
-                </p>
-              </div>
             </motion.div>
             
             <div className="space-y-3 mb-4">

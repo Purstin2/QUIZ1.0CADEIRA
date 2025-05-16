@@ -61,10 +61,10 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({ onClose, onSubmit
                   <Mail className="w-8 h-8 text-[#7432B4]" />
                 </div>
                 <h3 className="text-xl font-bold text-[#2D1441] mb-2">
-                  Não perca seu plano personalizado!
+                  Para onde devemos enviar seu plano personalizado?
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  Informe seu email para garantir que você receba seu plano exclusivo mesmo se não concluir agora.
+                Informe seu Melhor E-mail para receber seu plano personalizado ao final do Quiz.
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-4">

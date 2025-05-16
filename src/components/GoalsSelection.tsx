@@ -26,7 +26,7 @@ const GoalsSelection: React.FC = () => {
   const [progressStage, setProgressStage] = useState(0);
   const [userInsight, setUserInsight] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
-  
+
   // Sistema dinâmico de insights personalizados
   const insights = {
     'lose-weight': 'Perder peso após os 40 anos é mais desafiador devido a mudanças metabólicas, mas nosso método foi criado especificamente para atender a esse desafio.',
@@ -40,18 +40,18 @@ const GoalsSelection: React.FC = () => {
   useEffect(() => {
     const count = goals.filter(g => g.selected).length;
     setSelectedCount(count);
-    
+
     // Sistema de pontos para gamificação interna
     const basePoints = count * 10;
     const bonusPoints = count >= 2 ? 15 : 0;
     setPoints(basePoints + bonusPoints);
-    
+
     // Estágios de progresso para desbloqueio de elementos
     if (count >= 3) setProgressStage(3);
     else if (count >= 2) setProgressStage(2);
     else if (count >= 1) setProgressStage(1);
     else setProgressStage(0);
-    
+
     // Sistema de insights baseado na seleção mais recente
     const selectedGoals = goals.filter(g => g.selected);
     if (selectedGoals.length > 0) {
@@ -64,7 +64,7 @@ const GoalsSelection: React.FC = () => {
     if (!isProcessing) {
       toggleGoal(id);
       setFocusedGoal(id);
-      
+
       // Reset do foco após breve delay
       setTimeout(() => {
         setFocusedGoal(null);
@@ -90,27 +90,8 @@ const GoalsSelection: React.FC = () => {
     navigate('/chair-yoga-experience');
   };
 
-  // Ordenar objetivos baseado em importância estratégica
-  const prioritizedGoals = [...goals].sort((a, b) => {
-    // Objetivos já selecionados vêm primeiro
-    if (a.selected && !b.selected) return -1;
-    if (!a.selected && b.selected) return 1;
-    
-    // Ordenar por ordem de impacto emocional
-    const priority = {
-      'lose-weight': 6,
-      'improve-mobility': 5, 
-      'manage-mood': 4,
-      'balance-hormones': 3,
-      'improve-heart': 2,
-      'enhance-skin': 1
-    };
-    
-    return (
-      (priority[b.id as keyof typeof priority] || 0) - 
-      (priority[a.id as keyof typeof priority] || 0)
-    );
-  });
+  const prioritizedGoals = goals;
+
 
   return (
     <AnimatedPage>
@@ -131,53 +112,65 @@ const GoalsSelection: React.FC = () => {
                 O que você quer transformar na sua vida?
               </h2>
               <p className="text-gray-600 text-sm">
-                Escolha seus objetivos e criaremos um plano <span className="font-semibold text-[#7432B4]">personalizado</span> para você alcançá-los sem sair da cadeira
+                Escolha seus objetivos e criaremos um plano{' '}
+                <span className="font-semibold text-[#7432B4]">
+                  personalizado
+                </span>{' '}
+                para você alcançá-los sem sair da cadeira
               </p>
             </motion.div>
 
             {/* Objetivos reordenados estrategicamente */}
             <section className="space-y-2.5 mb-5" aria-label="Lista de objetivos">
-              {prioritizedGoals.map((goal, index) => (
-                <motion.button
+              {prioritizedGoals.map((goal) => (
+                <button
                   key={goal.id}
                   onClick={() => handleGoalToggle(goal.id)}
                   className={`w-full flex items-center p-4 rounded-2xl border relative transition overflow-hidden ${
-                    goal.selected 
-                      ? 'bg-gradient-to-r from-[#7432B4]/5 to-[#7432B4]/10 border-[#7432B4] shadow-sm' 
+                    goal.selected
+                      ? 'bg-gradient-to-r from-[#7432B4]/5 to-[#7432B4]/10 border-[#7432B4] shadow-sm'
                       : 'bg-white border-gray-200 hover:border-gray-300'
                   } ${focusedGoal === goal.id ? 'ring-2 ring-[#7432B4]' : ''}`}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05, duration: 0.4 }}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${
-                    goal.selected ? 'bg-[#7432B4] text-white' : 'bg-[#7432B4]/10 text-[#7432B4]'
-                  }`}>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${
+                      goal.selected
+                        ? 'bg-[#7432B4] text-white'
+                        : 'bg-[#7432B4]/10 text-[#7432B4]'
+                    }`}
+                  >
                     {goal.icon}
                   </div>
                   <div className="text-left flex-1 ml-3">
-                    <div className="font-medium text-gray-800">{goal.title}</div>
-                    <div className="text-sm text-gray-500">{goal.description}</div>
+                    <div className="font-medium text-gray-800">
+                      {goal.title}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {goal.description}
+                    </div>
                   </div>
-                  
-                  {/* Indicador visual de seleção */}
+
+                  {/* Indicador visual de seleção, sem animação */}
                   {goal.selected && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="bg-[#7432B4] rounded-full flex items-center justify-center text-white text-sm w-5 h-5"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <div className="bg-[#7432B4] rounded-full flex items-center justify-center text-white text-sm w-5 h-5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3 w-3"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
                       </svg>
-                    </motion.div>
+                    </div>
                   )}
-                </motion.button>
+                </button>
               ))}
             </section>
-            
+
             {/* Área reorganizada de feedback e insights */}
             <div className="space-y-4 mb-5">
               {/* Plano premium - visível após 3+ seleções */}
@@ -193,14 +186,24 @@ const GoalsSelection: React.FC = () => {
                     <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
                       <div className="flex items-start gap-2">
                         <div className="bg-purple-600 rounded-full p-1 mt-0.5 flex-shrink-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 text-white"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
                         </div>
                         <div>
-                          <h3 className="font-semibold text-purple-800 mb-1">Plano Avançado Ativado:</h3>
+                          <h3 className="font-semibold text-purple-800 mb-1">
+                            Plano Avançado Ativado:
+                          </h3>
                           <p className="text-sm text-purple-700">
-                            Seu perfil multidimensional requer um método personalizado de alta performance. Adaptaremos cada exercício para seus objetivos múltiplos, maximizando resultados em menos tempo.
+                            Seu perfil multidimensional requer um método
+                            personalizado de alta performance. Adaptaremos cada
+                            exercício para seus objetivos múltiplos, maximizando
+                            resultados em menos tempo.
                           </p>
                         </div>
                       </div>
@@ -214,8 +217,8 @@ const GoalsSelection: React.FC = () => {
             <motion.button
               onClick={handleNextStep}
               className={`w-full font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg transition-all ${
-                selectedCount > 0 
-                  ? 'bg-[#7432B4] text-white hover:bg-[#6822A6]' 
+                selectedCount > 0
+                  ? 'bg-[#7432B4] text-white hover:bg-[#6822A6]'
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
               whileHover={selectedCount > 0 ? { scale: 1.02 } : {}}
@@ -223,17 +226,18 @@ const GoalsSelection: React.FC = () => {
               disabled={selectedCount === 0}
             >
               <span>
-                {selectedCount === 0 
-                  ? 'Selecione pelo menos um objetivo' 
-                  : `Continuar com ${selectedCount} ${selectedCount === 1 ? 'objetivo' : 'objetivos'}`
-                }
+                {selectedCount === 0
+                  ? 'Selecione pelo menos um objetivo'
+                  : `Continuar com ${selectedCount} ${
+                      selectedCount === 1 ? 'objetivo' : 'objetivos'
+                    }`}
               </span>
             </motion.button>
           </div>
         </main>
       </div>
       {showEmailModal && (
-        <EmailCaptureModal 
+        <EmailCaptureModal
           onClose={() => handleEmailModalComplete(false)}
           onSubmit={(email) => handleEmailModalComplete(true)}
         />
