@@ -17,7 +17,7 @@ import SupportStep from './components/SupportStep';
 import ExerciseStylePreference from './components/ExerciseStylePreference';
 import AvailableTime from './components/AvailableTime';
 import BMICalculator from './components/BMICalculator'; 
-import UnifiedResults from './components/UnifiedResults';// Novo componente unificado
+
 import QuickNav from './components/QuickNav';
 import { QuizProvider } from './context/QuizContext';
 import SalesPage from './components/SalesPage';
@@ -51,7 +51,7 @@ function App() {
             <Route path="/exercise-style" element={<ExerciseStylePreference />} />
             <Route path="/available-time" element={<AvailableTime />} />
             <Route path="/bmi-calculator" element={<BMICalculator />} />
-            <Route path="/unified-results" element={<UnifiedResults />} />
+          >
             <Route path="/sales" element={<SalesPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/success" element={<SuccessPage />} />
