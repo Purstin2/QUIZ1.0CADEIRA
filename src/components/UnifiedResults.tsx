@@ -6,6 +6,8 @@ import { useQuiz } from '../context/QuizContext';
 import Header from './Header';
 import AnimatedPage from './AnimatedPage';
 
+
+
 const UnifiedResults: React.FC = () => {
   const navigate = useNavigate();
   const {
