@@ -19,7 +19,7 @@ const UnifiedResults: React.FC = () => {
     availableTime,
   } = useQuiz();
 
-  // Log inicial para depuração
+  // Log inicial para depuraçãoAAAAAA
   console.log('UnifiedResults montado', {
     goals,
     bodyType,
