@@ -125,7 +125,6 @@ const BMICalculator: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="min-h-screen flex flex-col bg-white">
-        <Header />
         <main className="flex-1 px-5 py-6 max-w-xl w-full mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 10 }}

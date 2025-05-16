@@ -63,12 +63,11 @@ const AvailableTime: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
 
         <main className="flex-1 flex flex-col px-4">
           <div className="w-full max-w-md mx-auto">
             {/* Título e subtítulo */}
-            <h2 className="text-xl font-bold text-gray-800 mb-1 text-center">
+            <h2 className="text-2xl font-bold text-[#2D1441] mt-6 mb-2 text-center">
               Quanto tempo você tem para exercícios?
             </h2>
             <p className="text-gray-500 mb-4 text-center text-sm">
@@ -101,25 +100,7 @@ const AvailableTime: React.FC = () => {
               ))}
             </section>
 
-            {/* Exibição do plano personalizado (opcional, para debug ou UX futura) */}
-            {selected && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-[#7432B4]/10 p-4 rounded-xl mb-6"
-              >
-                <p className="text-gray-700 font-medium text-sm mb-1">
-                  Seu plano personalizado:
-                </p>
-                <p className="text-sm text-gray-600">
-                  Treinos de{' '}
-                  <span className="font-bold text-[#7432B4]">
-                    {getTimeByDay()}
-                  </span>{' '}
-                  por dia, 3-5 dias por semana
-                </p>
-              </motion.div>
-            )}
+           
           </div>
         </main>
       </div>

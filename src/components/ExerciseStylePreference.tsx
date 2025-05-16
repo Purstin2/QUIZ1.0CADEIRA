@@ -56,34 +56,18 @@ const ExerciseStylePreference: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
+        
         <main className="flex-1 flex flex-col px-4">
           <div className="w-full max-w-md mx-auto">
 
             {/* Barra de progresso + pontos */}
             <div className="mb-6 flex justify-between items-center">
               <div className="w-3/4">
-                <div className="text-xs text-[#7432B4] uppercase mb-1">ESTILO DE VIDA</div>
-                <div className="h-2 w-full bg-[#F4F4F4] rounded-full">
-                  <motion.div
-                    className="h-2 bg-[#7432B4] rounded-full"
-                    initial={{ width: '0%' }}
-                    animate={{ width: `${selected.length > 0 ? 30 + selected.length * 10 : 0}%` }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </div>
+             
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-xs text-gray-500">PONTOS</div>
-                <motion.div
-                  key={points}
-                  initial={{ scale: 1 }}
-                  animate={{ scale: points > 0 ? [1, 1.2, 1] : 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="font-bold text-[#7432B4]"
-                >
-                  {points}
-                </motion.div>
+             
+                
               </div>
             </div>
 

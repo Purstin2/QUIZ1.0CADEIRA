@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from './AnimatedPage';
+import Header from './Header';
 
 const SensitivityCheck: React.FC = () => {
   const navigate = useNavigate();
@@ -45,9 +46,10 @@ const SensitivityCheck: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <div className="flex-1 flex flex-col items-center px-4 pt-6">
+        <div className="flex-1 flex flex-col items-center px-4">
           <div className="w-full max-w-md">
-            <h2 className="text-2xl font-bold text-[#2D1441] mb-3 text-center">
+            {/* Removida a barra de progresso secundária que estava aqui */}
+            <h2 className="text-2xl font-bold text-[#2D1441] mt-6 mb-1 text-center">
               Você tem dificuldades com algum dos seguintes itens?
             </h2>
             <p className="text-sm text-gray-500 text-center mb-6">Você pode escolher ambos</p>
