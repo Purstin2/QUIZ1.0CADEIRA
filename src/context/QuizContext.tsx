@@ -72,7 +72,7 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   const [selectedPlan, setSelectedPlan] = useState<'starter' | 'complete' | 'premium' | null>('complete');
   const [email, setEmail] = useState<string | null>(null);
 
-  // Sequência de quiz atualizada com o novo fluxo otimizado
+  // Sequência de quiz otimizada com fluxo simplificado
   const quizSequence = [
     '/',                         // Age Selection
     '/sex-selection',            // Sex Selection
@@ -86,11 +86,11 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
     '/walking-time',             // Walking Time
     '/yoga-level',               // Yoga Level
     '/sensitivity-check',        // Sensitivity Check
-    '/support-step',             // Suporte emocional ou etapa extra (condicional)
+    '/support-step',             // Suporte emocional (condicional baseado na seleção em sensitivity-check)
     '/exercise-style',           // Exercise Style Preference
     '/available-time',           // Available Time
     '/bmi-calculator',           // BMI Calculator
-    '/unified-results',          // Nova página unificada de resultados (substitui 4 páginas)
+    '/unified-results',          // Nova página unificada de resultados (substitui 4 páginas anteriores)
     '/sales',                    // Sales Page
     '/checkout',                 // Checkout
     '/success'                   // Success Page
