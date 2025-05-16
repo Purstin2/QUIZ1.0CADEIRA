@@ -11,32 +11,32 @@ const ActivityLevel: React.FC = () => {
       id: 'sedentary',
       label: 'Sedentário',
       description: 'Pouco ou nenhum exercício',
-      icon: '🛋️'
+      icon: '🛋️',
     },
     {
       id: 'lightly',
       label: 'Pouco ativo',
       description: 'Exercícios leves 1-2 dias por semana',
-      icon: '🚶‍♀️'
+      icon: '🚶‍♀️',
     },
     {
       id: 'moderately',
       label: 'Moderadamente ativo',
       description: 'Exercícios moderados 3-5 dias por semana',
-      icon: '🏃‍♀️'
+      icon: '🏃‍♀️',
     },
     {
       id: 'very',
       label: 'Muito ativo',
       description: 'Exercícios intensos 6-7 dias por semana',
-      icon: '💪'
+      icon: '💪',
     },
     {
       id: 'highly',
       label: 'Altamente ativo',
       description: 'Exercícios diários intensos e trabalho físico',
-      icon: '🏋️‍♀️'
-    }
+      icon: '🏋️‍♀️',
+    },
   ];
 
   const handleSelect = () => {
@@ -46,20 +46,14 @@ const ActivityLevel: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
         <div className="flex-1 flex flex-col items-center px-4">
           <div className="w-full max-w-md">
-            <div className="mb-6">
-              <div className="text-xs text-center text-[#7432B4] uppercase mb-2">ATIVIDADE</div>
-              <div className="h-1 w-full bg-[#F4F4F4] rounded-full">
-                <div className="h-1 w-4/5 bg-[#7432B4] rounded-full" />
-              </div>
-            </div>
-
-            <h2 className="text-2xl font-bold text-[#2D1441] mb-6 text-center">
+            {/* Pergunta */}
+            <h2 className="text-2xl font-bold text-[#2D1441] mt-6 mb-6 text-center">
               Qual é seu nível de atividade?
             </h2>
 
+            {/* Lista de opções */}
             <div className="space-y-4">
               {levels.map((level) => (
                 <button

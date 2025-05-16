@@ -33,18 +33,13 @@ const WalkingTime: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
+
         <div className="flex-1 flex flex-col items-center px-4">
           <div className="w-full max-w-md">
 
-            <div className="mb-6">
-              <div className="text-xs text-center text-[#7432B4] uppercase mb-2">ATIVIDADE</div>
-              <div className="h-1 w-full bg-[#F4F4F4] rounded-full">
-                <div className="h-1 w-4/5 bg-[#7432B4] rounded-full" />
-              </div>
-            </div>
+          
 
-            <h2 className="text-2xl font-bold text-[#2D1441] mb-8 text-center">
+          <h2 className="text-2xl font-bold text-[#2D1441] mt-6 mb-6 text-center">
               Quanto tempo você passa caminhando em um dia normal?
             </h2>
 
