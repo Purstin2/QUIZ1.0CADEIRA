@@ -531,7 +531,7 @@ const ProfileSummary: React.FC = () => {
                   className="text-center"
                 >
                   <motion.button
-                    onClick={() => navigate('/plan-definitive')}
+                    onClick={() => navigate('/results')}
                     className="w-full bg-gradient-to-r from-[#7432B4] to-[#9747FF] text-white font-bold text-lg py-4 px-8 rounded-xl hover:from-[#6822A6] hover:to-[#8740E6] transition-colors shadow-lg mb-2 relative overflow-hidden"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}

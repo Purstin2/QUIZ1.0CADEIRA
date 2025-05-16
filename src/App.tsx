@@ -17,7 +17,11 @@ import SupportStep from './components/SupportStep';
 import ExerciseStylePreference from './components/ExerciseStylePreference';
 import AvailableTime from './components/AvailableTime';
 import BMICalculator from './components/BMICalculator';
-import ResultsPage from './components/ResultsPage'; // Nova página consolidada
+import ProfileSummary from './components/ProfileSummary'; // Mantendo o componente original
+// import PlanDefinitive from './components/PlanDefinitive'; // Removendo esta página
+// import CreatingPlan from './components/CreatingPlan'; // Removendo esta página
+// import PlanReady from './components/PlanReady'; // Removendo esta página
+import ResultsPage from './components/ResultsPage'; // Novo componente simplificado
 import SalesPage from './components/SalesPage';
 import Checkout from './components/Checkout';
 import SuccessPage from './components/SuccessPage';
@@ -51,7 +55,8 @@ function App() {
             <Route path="/exercise-style" element={<ExerciseStylePreference />} />
             <Route path="/available-time" element={<AvailableTime />} />
             <Route path="/bmi-calculator" element={<BMICalculator />} />
-            <Route path="/Results" element={<ResultsPage />} />
+            <Route path="/profile-summary" element={<ProfileSummary />} /> {/* Mantendo a página original */}
+            <Route path="/results" element={<ResultsPage />} /> {/* Página nova e otimizada */}
             <Route path="/sales" element={<SalesPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/success" element={<SuccessPage />} />
