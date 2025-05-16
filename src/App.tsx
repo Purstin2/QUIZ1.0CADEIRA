@@ -6,7 +6,6 @@ import SexSelection from './components/SexSelection';
 import CommunityPage from './components/CommunityPage';
 import GoalsSelection from './components/GoalsSelection';
 import ChairYogaExperience from './components/ChairYogaExperience';
-// Removida a importação de ChairYogaInfo
 import TargetZones from './components/TargetZones';
 import BodyType from './components/BodyType';
 import DreamBody from './components/DreamBody';
@@ -44,7 +43,6 @@ function App() {
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/goals" element={<GoalsSelection />} />
             <Route path="/chair-yoga-experience" element={<ChairYogaExperience />} />
-            {/* Removida a rota para ChairYogaInfo */}
             <Route path="/target-zones" element={<TargetZones />} />
             <Route path="/body-type" element={<BodyType />} />
             <Route path="/dream-body" element={<DreamBody />} />

@@ -28,7 +28,6 @@ const routes = [
   { path: '/exercise-style', label: 'Exercise Style' },
   { path: '/available-time', label: 'Available Time' },
   { path: '/bmi-calculator', label: 'BMI Calculator' },
-  { path: '/unified-results', label: 'Unified Results' }, // Nova rota
   { path: '/sales', label: 'Sales Page' },
   { path: '/checkout', label: 'Checkout' },
   { path: '/success', label: 'Success' }

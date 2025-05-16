@@ -64,7 +64,7 @@ const BMICalculator: React.FC = () => {
   const handleNext = () => {
     if (bmi) {
       setBodyMassIndex(bmi);
-      navigate('/unified-results');
+      navigate('/profile-summary');
     }
   };
 
