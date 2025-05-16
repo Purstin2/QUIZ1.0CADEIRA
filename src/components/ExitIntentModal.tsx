@@ -15,6 +15,7 @@ const ExitIntentModal = () => {
       }
     };
     
+    
     document.addEventListener('mouseleave', handleMouseLeave);
     
     return () => {
