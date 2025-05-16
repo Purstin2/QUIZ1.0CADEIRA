@@ -51,8 +51,7 @@ function App() {
             <Route path="/exercise-style" element={<ExerciseStylePreference />} />
             <Route path="/available-time" element={<AvailableTime />} />
             <Route path="/bmi-calculator" element={<BMICalculator />} />
-            {/* Nova página consolidada substituindo 4 páginas anteriores */}
-            <Route path="/results" element={<ResultsPage />} />
+            <Route path="/Results" element={<ResultsPage />} />
             <Route path="/sales" element={<SalesPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/success" element={<SuccessPage />} />

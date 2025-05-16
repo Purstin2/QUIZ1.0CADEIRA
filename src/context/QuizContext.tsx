@@ -88,8 +88,8 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   '/support-step',             // Suporte emocional (condicional)
   '/exercise-style',           // Exercise Style
   '/available-time',           // Available Time
-  '/bmi-calculator',           // BMI Calculator
-  '/results',                  // Nova página consolidada
+  '/bmi-calculator',           // BMI Calculator 
+  '/Results',                  // Nova página consolidada
   '/sales',                    // Sales Page otimizada
   '/checkout',                 // Checkout 
   '/success'                   // Success Page
