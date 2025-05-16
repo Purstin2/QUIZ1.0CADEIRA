@@ -74,29 +74,25 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
 
   const quizSequence = [
     '/',                         // Age Selection
-    '/sex-selection',            // Sex Selection
-    '/community',                // Community Page
-    '/goals',                    // Goals Selection
-    '/chair-yoga-experience',    // Chair Yoga Experience
-    // '/chair-yoga-info' removido daqui
-    '/target-zones',             // Target Zones
-    '/body-type',                // Body Type
-    '/dream-body',               // Dream Body
-    '/activity-level',           // Activity Level
-    '/walking-time',             // Walking Time
-    '/yoga-level',               // Yoga Level
-    '/sensitivity-check',        // Sensitivity Check
-    '/support-step',             // Suporte emocional ou etapa extra
-    '/exercise-style', 
-    '/available-time', 
-    '/bmi-calculator', 
-    '/profile-summary',
-    '/plan-definitive',
-    '/creating-plan',
-    '/plan-ready',
-    '/sales',
-    '/checkout',
-    '/success'
+  '/sex-selection',            // Sex Selection
+  '/community',                // Community Page
+  '/goals',                    // Goals Selection
+  '/chair-yoga-experience',    // Chair Yoga Experience
+  '/target-zones',             // Target Zones
+  '/body-type',                // Body Type
+  '/dream-body',               // Dream Body
+  '/activity-level',           // Activity Level
+  '/walking-time',             // Walking Time
+  '/yoga-level',               // Yoga Level
+  '/sensitivity-check',        // Sensitivity Check
+  '/support-step',             // Suporte emocional (condicional)
+  '/exercise-style',           // Exercise Style
+  '/available-time',           // Available Time
+  '/bmi-calculator',           // BMI Calculator
+  '/results',                  // Nova página consolidada
+  '/sales',                    // Sales Page otimizada
+  '/checkout',                 // Checkout 
+  '/success'                   // Success Page
   ];
 
   const getNextRoute = (currentRoute: string): string => {
