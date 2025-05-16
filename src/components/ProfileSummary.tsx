@@ -522,6 +522,7 @@ const ProfileSummary: React.FC = () => {
               )}
             </AnimatePresence>
 
+
             {/* Botão de continuação com urgência */}
             <AnimatePresence>
               {analysisComplete && (
