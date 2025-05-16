@@ -72,13 +72,13 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   const [selectedPlan, setSelectedPlan] = useState<'starter' | 'complete' | 'premium' | null>('complete');
   const [email, setEmail] = useState<string | null>(null);
 
-  // Sequência de quiz otimizada com fluxo simplificado
   const quizSequence = [
     '/',                         // Age Selection
     '/sex-selection',            // Sex Selection
     '/community',                // Community Page
     '/goals',                    // Goals Selection
     '/chair-yoga-experience',    // Chair Yoga Experience
+    // '/chair-yoga-info' removido daqui
     '/target-zones',             // Target Zones
     '/body-type',                // Body Type
     '/dream-body',               // Dream Body
@@ -86,14 +86,17 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
     '/walking-time',             // Walking Time
     '/yoga-level',               // Yoga Level
     '/sensitivity-check',        // Sensitivity Check
-    '/support-step',             // Suporte emocional (condicional baseado na seleção em sensitivity-check)
-    '/exercise-style',           // Exercise Style Preference
-    '/available-time',           // Available Time
-    '/bmi-calculator',           // BMI Calculator
-    '/unified-results',          // Nova página unificada de resultados (substitui 4 páginas anteriores)
-    '/sales',                    // Sales Page
-    '/checkout',                 // Checkout
-    '/success'                   // Success Page
+    '/support-step',             // Suporte emocional ou etapa extra
+    '/exercise-style', 
+    '/available-time', 
+    '/bmi-calculator', 
+    '/profile-summary',
+    '/plan-definitive',
+    '/creating-plan',
+    '/plan-ready',
+    '/sales',
+    '/checkout',
+    '/success'
   ];
 
   const getNextRoute = (currentRoute: string): string => {
