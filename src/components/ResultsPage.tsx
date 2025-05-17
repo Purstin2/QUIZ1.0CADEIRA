@@ -19,7 +19,8 @@ const ResultsPage: React.FC = () => {
   const { 
     goals, 
     bodyType, 
-    bodyMassIndex 
+    bodyMassIndex,
+    ageRange
   } = useQuiz();
   
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -59,20 +60,43 @@ const ResultsPage: React.FC = () => {
   const currentWeight = bodyMassIndex ? Math.round(bodyMassIndex * (estimatedHeight * estimatedHeight)) : 70;
   const targetWeight = Math.max(60, currentWeight - 5); // Simplificado para exemplo
   const weightLossAmount = currentWeight - targetWeight;
+
+  // Gerar benefícios baseados nas seleções do quiz 
+  const generateMainBenefit = () => {
+    const selectedGoalIds = goals.filter(g => g.selected).map(g => g.id);
+    
+    // Priorizar "Regeneração Articular" independente da seleção
+    if (selectedGoalIds.includes('improve-mobility')) {
+      return "Recupere sua mobilidade e elimine as dores articulares";
+    }
+    if (selectedGoalIds.includes('balance-hormones')) {
+      return "Reequilibre seu sistema articular e hormonal";
+    }
+    if (selectedGoalIds.includes('manage-mood')) {
+      return "Revitalize suas articulações e reduza o estresse";
+    }
+    if (selectedGoalIds.includes('lose-weight')) {
+      // Mantido como objetivo secundário, conforme combinado
+      return "Reactive suas articulações enquanto perde peso";
+    }
+    
+    // Default
+    return "Transforme sua mobilidade articular sem esforço";
+  };
   
-  // Depoimentos relevantes
+  // Depoimentos adaptados para foco em mobilidade
   const testimonials = [
     {
-      quote: 'Perdi 7kg em apenas 21 dias com este método! Nunca me senti tão bem.',
-      author: 'Maria S., 58 anos'
+      quote: "Em 21 dias, recuperei movimentos que não conseguia fazer há anos. As dores nas articulações diminuíram 80%!",
+      author: "Maria S., 58 anos"
     },
     {
-      quote: 'Minhas dores nas costas sumiram completamente depois de seguir o programa.',
-      author: 'Carlos L., 62 anos'
+      quote: "Minhas articulações estavam tão rígidas que mal conseguia me abaixar. Agora tenho mobilidade que não tinha há 15 anos.",
+      author: "Carlos L., 62 anos"
     },
     {
-      quote: 'Minha ansiedade reduziu e finalmente consigo dormir melhor.',
-      author: 'Ana F., 45 anos'
+      quote: "A ansiedade causada pelas dores crônicas reduziu drasticamente. Finalmente posso dormir sem medicação.",
+      author: "Ana F., 45 anos"
     }
   ];
   
@@ -88,20 +112,24 @@ const ResultsPage: React.FC = () => {
     const benefits = [];
     const selectedGoals = goals.filter(g => g.selected);
     
+    // Adicionar benefícios de mobilidade primeiro (prioridade)
+    benefits.push('Restauração da mobilidade articular');
+    benefits.push('Alívio de dores crônicas');
+    
+    // Adicionar benefícios secundários, se aplicável
     selectedGoals.forEach(goal => {
       if (goal.id === 'lose-weight') {
-        benefits.push('Queima de gordura localizada');
-      } else if (goal.id === 'improve-mobility') {
-        benefits.push('Redução de dores articulares');
+        benefits.push('Ativação metabólica sem impacto');
       } else if (goal.id === 'manage-mood') {
         benefits.push('Redução de estresse e ansiedade');
+      } else if (goal.id === 'balance-hormones') {
+        benefits.push('Suporte ao equilíbrio hormonal');
       }
     });
     
-    // Adicionar benefícios padrão se necessário
-    if (benefits.length < 2) {
-      benefits.push('Fortalecimento da postura');
-      benefits.push('Mais energia no dia-a-dia');
+    // Adicionar benefícios por idade
+    if (ageRange === '55-64' || ageRange === '65+') {
+      benefits.push('Protocolos específicos para articulações maduras');
     }
     
     return benefits.slice(0, 3);
@@ -114,7 +142,7 @@ const ResultsPage: React.FC = () => {
         
         <main className="flex-1 px-4 py-6">
           <div className="max-w-md mx-auto">
-            {/* Badge de aprovação */}
+            {/* Badge de aprovação - ARQUÉTIPO SÁBIO */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -127,16 +155,14 @@ const ResultsPage: React.FC = () => {
                 transition={{ delay: 0.2, duration: 1, repeat: 2 }}
               >
                 <CheckCircle className="w-4 h-4" />
-                <span>SEU PLANO ESTÁ PRONTO!</span>
+                <span>PROTOCOLO PERSONALIZADO CONCLUÍDO</span>
               </motion.div>
               
               <h1 className="text-xl font-bold text-[#2D1441] mb-1">
-                Método personalizado de Transformação
+                Sistema de Regeneração Articular Feminina
               </h1>
               <p className="text-sm text-gray-600">
-                {weightLossAmount > 0 
-                  ? `Pronto para perder ${weightLossAmount}kg em apenas 21 dias`
-                  : 'Pronto para transformar seu corpo em apenas 21 dias'}
+                {generateMainBenefit()} em apenas 21 dias
               </p>
             </motion.div>
             
@@ -156,11 +182,11 @@ const ResultsPage: React.FC = () => {
               </div>
               
               <div className="p-4">
-                {/* Card de peso atual/meta */}
+                {/* Card de medidas de mobilidade */}
                 <div className="flex justify-between items-center p-3 bg-[#F7F3FF] rounded-lg mb-4">
                   <div className="text-center">
-                    <div className="text-xs text-gray-500">Peso Atual</div>
-                    <div className="font-bold text-red-500">{currentWeight}kg</div>
+                    <div className="text-xs text-gray-500">Mobilidade Atual</div>
+                    <div className="font-bold text-red-500">Limitada</div>
                   </div>
                   
                   <motion.div
@@ -172,14 +198,14 @@ const ResultsPage: React.FC = () => {
                   
                   <div className="text-center">
                     <div className="text-xs text-gray-500">Meta</div>
-                    <div className="font-bold text-green-500">{targetWeight}kg</div>
+                    <div className="font-bold text-green-500">Restaurada</div>
                   </div>
                 </div>
                 
                 {/* Benefícios-chave */}
                 <div className="mb-4">
                   <h3 className="text-sm font-medium text-gray-700 mb-2">
-                    Benefícios principais:
+                    Benefícios do seu protocolo:
                   </h3>
                   <div className="space-y-2">
                     {getBenefits().map((benefit, idx) => (
@@ -230,12 +256,12 @@ const ResultsPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Garantia */}
+                {/* Garantia - ARQUÉTIPO SÁBIO */}
                 <div className="flex items-center gap-2 bg-green-50 p-3 rounded-lg mb-4 border border-green-100">
                   <Shield className="w-5 h-5 text-green-600 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-medium text-green-800">Garantia de 7 dias</p>
-                    <p className="text-xs text-gray-700">Resultados ou seu dinheiro de volta</p>
+                    <p className="text-xs text-gray-700">Mobilidade restaurada ou seu dinheiro de volta</p>
                   </div>
                 </div>
                 
@@ -268,7 +294,7 @@ const ResultsPage: React.FC = () => {
                     }}
                   />
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    Ver Meu Plano Completo
+                    Ver Meu Protocolo Completo
                     <ArrowRight className="w-5 h-5" />
                   </span>
                 </motion.button>
@@ -279,7 +305,7 @@ const ResultsPage: React.FC = () => {
               </div>
             </motion.div>
             
-            {/* Certificação */}
+            {/* Certificação - ARQUÉTIPO SÁBIO */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -290,7 +316,7 @@ const ResultsPage: React.FC = () => {
                 <Award className="w-5 h-5 text-purple-700" />
               </div>
               <h3 className="text-sm font-medium text-[#2D1441]">
-                Aprovado pela Associação Brasileira de Fisioterapia
+                Certificado pela Associação Brasileira de Fisioterapia e Saúde Articular
               </h3>
             </motion.div>
           </div>
