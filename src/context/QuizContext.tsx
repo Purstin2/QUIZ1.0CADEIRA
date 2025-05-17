@@ -74,7 +74,8 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
 
   const quizSequence = [
     '/',                         // Age Selection
-    '/sex-selection',            // Sex Selection
+    // '/sex-selection',            // Sex Selection
+    '/goals',                    // Goals Selection
     '/community',                // Community Page
     '/goals',                    // Goals Selection
     '/chair-yoga-experience',    // Chair Yoga Experience

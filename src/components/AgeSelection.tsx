@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { Star, Award, Clock, Check } from 'lucide-react';
 import { useQuiz } from '../context/QuizContext';
-
+import { motion } from 'framer-motion';
 
 const AgeSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ const AgeSelection: React.FC = () => {
     const updateRecentUsers = () => {
       const randomUsers = Math.floor(Math.random() * (1800 - 1200 + 1)) + 1200;
       setRecentUsers(randomUsers);
-
     };
 
     updateRecentUsers();
@@ -38,20 +37,44 @@ const AgeSelection: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <div className="flex-1 flex flex-col items-center px-4 pt-8">
+        {/* Badge de Quiz/Teste */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center gap-1.5 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-medium mb-3"
+        >
+          <Clock className="w-3 h-3" />
+          <span>TESTE RÁPIDO GRATUITO</span>
+        </motion.div>
+        
         <h1 className="text-[28px] font-extrabold text-[#2D1441] text-center leading-tight mb-2">
-          CRIE UM PLANO IDEAL PRO SEU TIPO DE CORPO SEM SAIR DA CADEIRA 🪑
+          DESCUBRA SEU PLANO PERSONALIZADO DE <span className="text-[#7432B4]">YOGA NA CADEIRA</span> EM 2 MINUTOS
         </h1>
-        <p className="text-gray-600 text-center mb-2">
-          Mini-exercícios diários baseados na sua rotina, limitações, e tipo de corpo.
+        
+        <p className="text-gray-600 text-center mb-3 max-w-sm">
+          <span className="font-semibold">Para mulheres 35+</span> que querem exercícios adaptados à sua idade, 
+          corpo e limitações. Desenvolvido por fisioterapeutas especializados
         </p>
-        <button
-  className="bg-[#7432B4] text-white px-3 py-0.5 rounded-full font-medium mb-6"
-  style={{ fontSize: '0.65rem' }}
->
-  TESTE DE 2 MINUTOS
-</button>
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-wrap justify-center items-center mb-5 gap-2"
+        >
+          <div className="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-medium">
+            <Award className="w-3 h-3" />
+            <span>CERTIFICADO POR ESPECIALISTAS</span>
+          </div>
+          
+          <div className="flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
+            <Check className="w-3 h-3" />
+            <span>100% ADAPTÁVEL AO SEU CORPO</span>
+          </div>
+        </motion.div>
 
-        <div className="grid grid-cols-2 gap-3 w-full max-w-md mb-8">
+        <div className="grid grid-cols-2 gap-3 w-full max-w-md mb-6">
           {[['35-44', '45-54'], ['55-64', '65+']].map((row, i) => (
             <React.Fragment key={i}>
               {row.map((age) => (
@@ -100,18 +123,19 @@ const AgeSelection: React.FC = () => {
                   <Star
                     key={i}
                     size={16}
-                    className={i < 4 ? "fill-yellow-400 text-yellow-400" : "fill-gray-200 text-gray-200"}
+                    className={i < 5 ? "fill-yellow-400 text-yellow-400" : "fill-gray-200 text-gray-200"}
                   />
                 ))}
               </div>
-              <span className="ml-1 text-sm font-medium text-gray-600">4.7</span>
+              <span className="ml-1 text-sm font-medium text-gray-600">4.9</span>
             </div>
           </div>
           <p className="text-sm text-center text-gray-600">
-            {recentUsers} pessoas fizeram o teste na última hora
+            <span className="font-semibold text-[#7432B4]">{recentUsers}</span> mulheres já descobriram seu plano personalizado hoje
           </p>
         </div>
 
+        
         <div className="text-[10px] text-gray-500 mt-auto text-center max-w-xs px-4">
           Ao continuar, eu concordo com os <span className="underline">Termos de Serviço</span>, <span className="underline">Política de Privacidade</span>, <span className="underline">Política de Dados</span>, <span className="underline">Assinatura</span>, <span className="underline">Reembolso</span>, e <span className="underline">Cookies</span> (incluindo o uso de rastreamento).
           <br /><br />
