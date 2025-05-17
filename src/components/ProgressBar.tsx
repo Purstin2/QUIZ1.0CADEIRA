@@ -9,19 +9,15 @@ const ProgressBar: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   
-  // Mapeamento das rotas de seleção
+  // Mapeamento atualizado das rotas de seleção (removidas sex-selection, community, walking-time, yoga-level)
   const selectionRoutes = [
     '/',                     // AgeSelection
-    '/sex-selection',        // SexSelection
-    '/community',            // CommunityPage
     '/goals',                // GoalsSelection
-    '/chair-yoga-experience',// ChairYogaExperience
-    '/target-zones',         // TargetZones
     '/body-type',            // BodyType
     '/dream-body',           // DreamBody
+    '/target-zones',         // TargetZones
+    '/chair-yoga-experience',// ChairYogaExperience (consolidada com YogaLevel)
     '/activity-level',       // ActivityLevel
-    '/walking-time',         // WalkingTime
-    '/yoga-level',           // YogaLevel
     '/sensitivity-check',    // SensitivityCheck
     '/support-step',         // SupportStep
     '/exercise-style',       // ExerciseStylePreference
@@ -49,7 +45,7 @@ const ProgressBar: React.FC = () => {
   }
   
   return (
-    <div className="px-4 py-3 bg-[#F7F3FF] border-b border-gray-100">
+    <div className="px-4 py-3 bg-[#F7F3FF] border-b border-gray-100 sticky top-0 z-20">
       <div className="w-full max-w-md mx-auto flex items-center space-x-4">
         {/* Botão de voltar */}
         <button 

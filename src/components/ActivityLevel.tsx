@@ -40,7 +40,7 @@ const ActivityLevel: React.FC = () => {
   ];
 
   const handleSelect = () => {
-    navigate('/walking-time');
+    navigate('/sensitivity-check');
   };
 
   return (

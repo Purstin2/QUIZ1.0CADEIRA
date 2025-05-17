@@ -3,49 +3,55 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useQuiz } from '../context/QuizContext';
 import AnimatedPage from './AnimatedPage';
-import Header from './Header';
 
 const TargetZones: React.FC = () => {
   const navigate = useNavigate();
   const { getNextRoute } = useQuiz();
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
 
+  // Zonas do corpo específicas para mulheres 40+
   const zones = [
     {
       id: 'full-body',
       label: 'Corpo inteiro',
-      description: 'Trabalhe todos os grupos musculares',
+      description: 'Equilíbrio hormonal e fortalecimento global',
       icon: '💪',
     },
     {
       id: 'breasts',
-      label: 'Seios',
-      description: 'Fortaleça e melhore a postura',
+      label: 'Região do busto',
+      description: 'Fortalecer e melhorar a sustentação',
       icon: '👚',
     },
     {
       id: 'arms',
       label: 'Braços',
-      description: 'Tonifique e defina',
+      description: 'Combater flacidez e definir contorno',
       icon: '💪',
     },
     {
       id: 'belly',
-      label: 'Barriga',
-      description: 'Fortaleça o core',
+      label: 'Abdômen',
+      description: 'Reduzir gordura pós-menopausa e fortalecer core',
       icon: '🔄',
     },
     {
       id: 'butt',
-      label: 'Bumbum',
-      description: 'Levante e fortaleça',
+      label: 'Glúteos',
+      description: 'Levantar e combater a perda de tônus muscular',
       icon: '🍑',
     },
     {
       id: 'legs',
       label: 'Pernas',
-      description: 'Tonifique e defina',
+      description: 'Melhorar circulação e definir contorno',
       icon: '🦵',
+    },
+    {
+      id: 'back',
+      label: 'Coluna e Costas',
+      description: 'Aliviar dores e melhorar postura',
+      icon: '⚕️',
     },
   ];
 
@@ -58,7 +64,7 @@ const TargetZones: React.FC = () => {
   };
 
   const handleContinue = () => {
-    navigate('/body-type');
+    navigate('/chair-yoga-experience');
   };
 
   return (
@@ -67,7 +73,7 @@ const TargetZones: React.FC = () => {
         <div className="flex-1 flex flex-col items-center px-4 pt-7">
           <div className="w-full max-w-md">
             <h2 className="text-2xl font-bold text-[#2D1441] mb-8 text-center">
-              Quais áreas você quer trabalhar?
+              Quais áreas você quer priorizar?
             </h2>
 
             <section className="space-y-2.5 mb-8" aria-label="Lista de áreas do corpo">
@@ -83,7 +89,7 @@ const TargetZones: React.FC = () => {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
-                  {/* Ícone com fundo arredondado - agora com emojis melhores */}
+                  {/* Ícone com fundo arredondado */}
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${
                     selectedZones.includes(zone.id)
                       ? 'bg-[#7432B4] text-white'
@@ -111,6 +117,7 @@ const TargetZones: React.FC = () => {
                 </motion.button>
               ))}
             </section>
+
 
             {/* Botão de continuar */}
             <motion.button

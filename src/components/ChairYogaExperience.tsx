@@ -1,63 +1,55 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useQuiz } from '../context/QuizContext';
 import AnimatedPage from './AnimatedPage';
 
+// Versão atualizada para combinar ChairYogaExperience e YogaLevel
 const ChairYogaExperience: React.FC = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { setChairYogaExperience } = useQuiz();
+  const { setChairYogaExperience, setYogaLevel } = useQuiz();
   
   const options = [
     { 
       value: 'never', 
+      yogaLevel: 'beginner',
       label: 'Sou iniciante',
       icon: '🌱',
-      description: 'Nunca pratiquei yoga na cadeira antes',
+      description: 'Nunca pratiquei yoga ou exercícios similares antes',
       benefit: 'Receberá instruções detalhadas, passo a passo'
     },
     { 
       value: 'tried', 
+      yogaLevel: 'basic',
       label: 'Tenho alguma experiência',
       icon: '🍃',
-      description: 'Já experimentei algumas vezes',
+      description: 'Já experimentei yoga ou atividades similares algumas vezes',
       benefit: 'Receberá exercícios de nível intermediário'
     },
     { 
       value: 'regular', 
-      label: 'Sou praticante regular',
+      yogaLevel: 'intermediate',
+      label: 'Pratico regularmente',
       icon: '🧘‍♀️',
-      description: 'Pratico regularmente há algum tempo',
-      benefit: 'Receberá sequências avançadas e desafiadoras'
+      description: 'Pratico yoga ou exercícios similares com frequência',
+      benefit: 'Receberá sequências mais avançadas e desafiadoras'
     }
   ];
 
-  const handleSelect = (value: string) => {
-    setSelected(value);
-    setChairYogaExperience(value as 'never' | 'tried' | 'regular');
+  const handleSelect = (option: {value: string, yogaLevel: string}) => {
+    setSelected(option.value);
+    setChairYogaExperience(option.value as 'never' | 'tried' | 'regular');
+    setYogaLevel(option.yogaLevel);
     setTimeout(() => {
-      navigate('/target-zones');
+      navigate('/activity-level');
     }, 300);
   };
 
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white pt-6">
-        {/* Mensagem de confirmação sutil */}
-        <motion.div 
-          className="w-full max-w-md mx-auto px-4 mt-2"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="bg-green-50 text-green-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2">
-            <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span>Objetivos registrados com sucesso!</span>
-          </div>
-        </motion.div>
+       
         
         <main className="flex-1 flex flex-col items-center px-4 pt-4">
           <div className="w-full max-w-md">
@@ -68,7 +60,7 @@ const ChairYogaExperience: React.FC = () => {
               className="mb-6">
 
               <h2 className="text-2xl font-bold text-[#2D1441] mb-8 text-center">
-                Qual é o seu nível de experiência? 
+                Qual é a sua experiência com yoga e exercícios? 
               </h2>
               
             </motion.div>
@@ -77,7 +69,7 @@ const ChairYogaExperience: React.FC = () => {
               {options.map((option, index) => (
                 <motion.button
                   key={option.value}
-                  onClick={() => handleSelect(option.value)}
+                  onClick={() => handleSelect(option)}
                   className={`w-full flex items-center p-4 rounded-xl border transition-all ${
                     selected === option.value 
                       ? 'border-[#7432B4] bg-[#7432B4]/5 shadow-sm' 

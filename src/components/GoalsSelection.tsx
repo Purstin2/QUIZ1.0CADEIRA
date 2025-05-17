@@ -27,14 +27,14 @@ const GoalsSelection: React.FC = () => {
   const [userInsight, setUserInsight] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
 
-  // Sistema dinâmico de insights personalizados
+  // Sistema dinâmico de insights personalizados para mulheres 40+
   const insights = {
-    'lose-weight': 'Perder peso após os 40 anos é mais desafiador devido a mudanças metabólicas, mas nosso método foi criado especificamente para atender a esse desafio.',
-    'manage-mood': 'Estresse e ansiedade afetam a qualidade de vida e até mesmo o sono. Nosso método inclui técnicas exclusivas para equilíbrio emocional.',
-    'balance-hormones': 'Desequilíbrios hormonais afetam até 80% das mulheres na meia-idade. Nossos exercícios incluem técnicas específicas para harmonização hormonal.',
-    'improve-mobility': 'A mobilidade reduzida afeta mais de 60% das pessoas após os 45 anos. Nosso programa foi desenvolvido por fisioterapeutas especializados.',
-    'enhance-skin': 'Exercícios específicos de yoga melhoram a circulação e oxigenação da pele, contribuindo para uma aparência mais jovial e saudável.',
-    'improve-heart': 'Apenas 15 minutos diários de exercícios adaptados podem reduzir o risco cardiovascular em até 30%, segundo estudos da Mayo Clinic.'
+    'lose-weight': 'Em mulheres 40+, o metabolismo naturalmente desacelera. Nosso método foi criado especificamente para ativar o metabolismo feminino nesta fase da vida.',
+    'manage-mood': 'Oscilações de humor e ansiedade são comuns durante mudanças hormonais. Nossas técnicas exclusivas promovem equilíbrio emocional e melhor qualidade do sono.',
+    'balance-hormones': 'Desequilíbrios hormonais afetam 80% das mulheres na meia-idade. Desenvolvemos movimentos específicos para ajudar na harmonização hormonal natural.',
+    'improve-mobility': 'Após os 45 anos, mais de 60% das mulheres enfrentam redução de mobilidade. Nosso programa foi desenvolvido por fisioterapeutas especializadas em saúde feminina.',
+    'enhance-skin': 'Movimentos específicos de yoga na cadeira melhoram a circulação e oxigenação da pele, diminuindo o aparecimento de rugas e ressecamento comum após os 40.',
+    'improve-heart': 'A saúde cardíaca feminina requer atenção especial após os 40. Apenas 15 minutos de exercícios diários podem reduzir o risco cardiovascular em até 30%.'
   };
 
   useEffect(() => {
@@ -87,11 +87,24 @@ const GoalsSelection: React.FC = () => {
       console.log('Email capturado com sucesso!');
     }
     // Proceder com a navegação
-    navigate('/chair-yoga-experience');
+    navigate('/body-type'); // Atualizado para a nova sequência
   };
 
-  const prioritizedGoals = goals;
-
+  // Reorganização dos objetivos para priorizar questões femininas 40+
+  const prioritizedGoals = [...goals].sort((a, b) => {
+    // Priorizar metas mais relevantes para mulheres 40+
+    const priorityOrder = {
+      'balance-hormones': 1,
+      'improve-mobility': 2,
+      'lose-weight': 3,
+      'manage-mood': 4,
+      'enhance-skin': 5,
+      'improve-heart': 6
+    };
+    
+    return (priorityOrder[a.id as keyof typeof priorityOrder] || 99) - 
+           (priorityOrder[b.id as keyof typeof priorityOrder] || 99);
+  });
 
   return (
     <AnimatedPage>
@@ -101,7 +114,7 @@ const GoalsSelection: React.FC = () => {
 
         <main className="flex-1 flex flex-col px-4">
           <div className="w-full max-w-md mx-auto">
-            {/* Título principal com copy persuasiva */}
+            {/* Título principal com copy persuasiva para mulheres 30+ */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -109,14 +122,14 @@ const GoalsSelection: React.FC = () => {
               className="text-center mb-5"
             >
               <h2 className="text-2xl font-bold text-[#2D1441] mb-3 text-center">
-                O que você quer transformar na sua vida?
+                O que você deseja transformar em sua vida?
               </h2>
               <p className="text-gray-600 text-sm">
                 Escolha seus objetivos e criaremos um plano{' '}
                 <span className="font-semibold text-[#7432B4]">
                   personalizado
                 </span>{' '}
-                para você alcançá-los sem sair da cadeira
+                que responde às suas necessidades específicas.
               </p>
             </motion.div>
 
@@ -150,7 +163,7 @@ const GoalsSelection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Indicador visual de seleção, sem animação */}
+                  {/* Indicador visual de seleção */}
                   {goal.selected && (
                     <div className="bg-[#7432B4] rounded-full flex items-center justify-center text-white text-sm w-5 h-5">
                       <svg
@@ -171,7 +184,7 @@ const GoalsSelection: React.FC = () => {
               ))}
             </section>
 
-            {/* Área reorganizada de feedback e insights */}
+            {/* Área de insights femininos específicos */}
             <div className="space-y-4 mb-5">
               {/* Plano premium - visível após 3+ seleções */}
               <AnimatePresence>
@@ -197,13 +210,10 @@ const GoalsSelection: React.FC = () => {
                         </div>
                         <div>
                           <h3 className="font-semibold text-purple-800 mb-1">
-                            Plano Avançado Ativado:
+                            Programa Avançado Feminino Ativado:
                           </h3>
                           <p className="text-sm text-purple-700">
-                            Seu perfil multidimensional requer um método
-                            personalizado de alta performance. Adaptaremos cada
-                            exercício para seus objetivos múltiplos, maximizando
-                            resultados em menos tempo.
+                            Seu perfil multidimensional requer um método adaptado às necessidades específicas do corpo feminino 30+. Cada exercício será personalizado para atender às suas múltiplas metas, maximizando resultados com movimentos adequados à sua fisiologia.
                           </p>
                         </div>
                       </div>
@@ -213,7 +223,7 @@ const GoalsSelection: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Botão de continuar corrigido */}
+            {/* Botão de continuar */}
             <motion.button
               onClick={handleNextStep}
               className={`w-full font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg transition-all ${

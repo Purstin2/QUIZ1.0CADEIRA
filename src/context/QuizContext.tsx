@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 type AgeRange = '35-44' | '45-54' | '55-64' | '65+' | null;
-type Sex = 'female' | 'male' | null;
+// Removida: type Sex = 'female' | 'male' | null;
 type ChairYogaExperience = 'regular' | 'tried' | 'never' | null;
 type BodyType = 'normal' | 'curvy' | 'plus' | null;
 type DreamBody = 'fit' | 'athletic' | 'shapely' | 'content' | null;
@@ -17,8 +17,7 @@ export interface Goal {
 interface QuizContextType {
   ageRange: AgeRange;
   setAgeRange: (age: AgeRange) => void;
-  sex: Sex;
-  setSex: (sex: Sex) => void;
+  // Removidos: sex e setSex
   goals: Goal[];
   toggleGoal: (id: string) => void;
   chairYogaExperience: ChairYogaExperience;
@@ -60,7 +59,7 @@ interface QuizProviderProps {
 
 export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   const [ageRange, setAgeRange] = useState<AgeRange>(null);
-  const [sex, setSex] = useState<Sex>(null);
+  // Removido: const [sex, setSex] = useState<Sex>(null);
   const [chairYogaExperience, setChairYogaExperience] = useState<ChairYogaExperience>(null);
   const [bodyType, setBodyType] = useState<BodyType>(null);
   const [dreamBody, setDreamBody] = useState<DreamBody>(null);
@@ -72,27 +71,23 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   const [selectedPlan, setSelectedPlan] = useState<'starter' | 'complete' | 'premium' | null>('complete');
   const [email, setEmail] = useState<string | null>(null);
 
+  // Sequência de fluxo atualizada (removidas etapas desnecessárias e reordenadas)
   const quizSequence = [
     '/',                         // Age Selection
-    // '/sex-selection',            // Sex Selection
     '/goals',                    // Goals Selection
-    '/community',                // Community Page
-    '/goals',                    // Goals Selection
-    '/chair-yoga-experience',    // Chair Yoga Experience
-    '/target-zones',             // Target Zones
     '/body-type',                // Body Type
     '/dream-body',               // Dream Body
+    '/target-zones',             // Target Zones
+    '/chair-yoga-experience',    // Chair Yoga Experience (consolidado com Yoga Level)
     '/activity-level',           // Activity Level
-    '/walking-time',             // Walking Time
-    '/yoga-level',               // Yoga Level
     '/sensitivity-check',        // Sensitivity Check
     '/support-step',             // Suporte emocional (condicional)
     '/exercise-style',           // Exercise Style
     '/available-time',           // Available Time
     '/bmi-calculator',           // BMI Calculator
-    '/profile-summary',          // Mantendo a página de perfil original
-    '/results',                  // Nova página otimizada (substitui PlanDefinitive, CreatingPlan, PlanReady)
-    '/sales',                    // Sales Page otimizada
+    '/profile-summary',          // Profile Summary
+    '/results',                  // Results Page
+    '/sales',                    // Sales Page
     '/checkout',                 // Checkout 
     '/success'                   // Success Page
   ];
@@ -116,7 +111,7 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
     {
       id: 'manage-mood',
       title: 'Controlar mudanças de humor',
-      description: 'Sentir-se mais equilibrado e menos estressado',
+      description: 'Sentir-se mais equilibrada e menos estressada',
       icon: '🍃',
       selected: false,
     },
@@ -163,8 +158,7 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
       value={{
         ageRange,
         setAgeRange,
-        sex,
-        setSex,
+        // Removidos: sex, setSex,
         goals,
         toggleGoal,
         chairYogaExperience,

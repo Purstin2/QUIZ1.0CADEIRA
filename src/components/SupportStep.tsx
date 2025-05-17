@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, Shield, User, Award, Star } from 'lucide-react';
+import { CheckCircle, Shield, User, Award, Star, Heart } from 'lucide-react';
 import AnimatedPage from './AnimatedPage';
 
 const SupportStep: React.FC = () => {
@@ -23,21 +23,21 @@ const SupportStep: React.FC = () => {
     return () => clearInterval(testimonialInterval);
   }, []);
   
-  // Depoimentos de pessoas que tiveram condições similares
+  // Depoimentos de mulheres 40+ com condições similares
   const testimonials = [
     {
-      quote: "As dores nas minhas costas me impediam de fazer qualquer exercício, até conhecer este método. Hoje me movimento sem dor!",
-      author: "Maria S., 58 anos",
-      reduction: "78% de redução nas dores"
+      quote: "Aos 56 anos, as dores nas minhas costas me impediam até de fazer tarefas simples. Este método me devolveu mobilidade que não tinha há anos!",
+      author: "Maria S., 56 anos",
+      reduction: "78% de redução nas dores em 21 dias"
     },
     {
-      quote: "Meus joelhos não me deixavam fazer nem uma caminhada. Graças aos exercícios adaptados, recuperei mobilidade que não tinha há anos.",
-      author: "Carlos P., 64 anos",
+      quote: "Durante a menopausa, minhas articulações ficaram muito sensíveis. Este programa adaptado respeita os limites do meu corpo e ainda me ajuda a fortalecê-lo.",
+      author: "Cristina P., 52 anos",
       reduction: "82% de melhora na mobilidade"
     },
     {
-      quote: "Pensei que teria que viver com dores crônicas para sempre. Este programa mudou completamente minha qualidade de vida.",
-      author: "Ana L., 52 anos",
+      quote: "Como professora aposentada, achei que teria que viver com dores crônicas para sempre. Esta abordagem feminina mudou completamente minha qualidade de vida.",
+      author: "Ana L., 61 anos",
       reduction: "90% mais disposição diária"
     }
   ];
@@ -48,9 +48,8 @@ const SupportStep: React.FC = () => {
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-6">
           <div className="w-full max-w-md">
             
-            
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-              {/* Título simplificado */}
+              {/* Título feminino */}
               <motion.div 
                 initial={{ y: -10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -62,10 +61,10 @@ const SupportStep: React.FC = () => {
                 </div>
                 
                 <h2 className="text-xl font-bold text-[#2D1441] mb-1">
-                  Diagnóstico de Sensibilidade Completo
+                  Programa de Suporte Feminino Ativado
                 </h2>
                 <p className="text-[#7432B4] text-sm">
-                  Suas áreas sensíveis serão tratadas com atenção especial
+                  Suas sensibilidades serão tratadas com atenção especializada
                 </p>
               </motion.div>
               
@@ -79,10 +78,10 @@ const SupportStep: React.FC = () => {
                     <Shield className="w-6 h-6 text-[#7432B4] flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-bold text-[#2D1441]">
-                        Detectamos áreas de sensibilidade
+                        Adaptações para o corpo feminino maduro
                       </p>
                       <p className="text-gray-600 text-sm">
-                        Com base em sua análise, criaremos um programa que respeita suas limitações e <span className="font-medium">acelera sua recuperação</span>.
+                        Com base na sua análise, criamos um programa que respeita as sensibilidades naturais do seu corpo e <span className="font-medium">acelera sua recuperação</span>.
                       </p>
                     </div>
                   </div>
@@ -97,8 +96,8 @@ const SupportStep: React.FC = () => {
                         <CheckCircle className="w-4 h-4 text-[#7432B4]" />
                       </div>
                       <div>
-                        <span className="text-gray-800 font-medium block text-sm">Treinos adaptados para áreas sensíveis</span>
-                        <span className="text-gray-500 text-xs">Movimentos especialmente desenvolvidos por fisioterapeutas</span>
+                        <span className="text-gray-800 font-medium block text-sm">Movimentos adaptados às alterações hormonais</span>
+                        <span className="text-gray-500 text-xs">Desenvolvidos especificamente para mulheres na perimenopausa e menopausa</span>
                       </div>
                     </li>
                     <li className="flex items-start">
@@ -106,8 +105,8 @@ const SupportStep: React.FC = () => {
                         <CheckCircle className="w-4 h-4 text-[#7432B4]" />
                       </div>
                       <div>
-                        <span className="text-gray-800 font-medium block text-sm">Sequências progressivas de fortalecimento</span>
-                        <span className="text-gray-500 text-xs">Evoluindo gradualmente conforme seu corpo responde</span>
+                        <span className="text-gray-800 font-medium block text-sm">Sequências suaves para articulações sensíveis</span>
+                        <span className="text-gray-500 text-xs">Respeitando a redução natural de colágeno</span>
                       </div>
                     </li>
                     <li className="flex items-start">
@@ -115,8 +114,8 @@ const SupportStep: React.FC = () => {
                         <CheckCircle className="w-4 h-4 text-[#7432B4]" />
                       </div>
                       <div>
-                        <span className="text-gray-800 font-medium block text-sm">Orientações de alívio imediato</span>
-                        <span className="text-gray-500 text-xs">Técnicas para redução de desconforto entre sessões</span>
+                        <span className="text-gray-800 font-medium block text-sm">Técnicas de alívio imediato para pontos de tensão</span>
+                        <span className="text-gray-500 text-xs">Foco nas áreas comumente afetadas em mulheres </span>
                       </div>
                     </li>
                     <li className="flex items-start">
@@ -124,8 +123,8 @@ const SupportStep: React.FC = () => {
                         <CheckCircle className="w-4 h-4 text-[#7432B4]" />
                       </div>
                       <div>
-                        <span className="text-gray-800 font-medium block text-sm">Suporte nutricional anti-inflamatório</span>
-                        <span className="text-gray-500 text-xs">Alimentos que ajudam na recuperação dos tecidos</span>
+                        <span className="text-gray-800 font-medium block text-sm">Suporte nutricional para saúde óssea e muscular</span>
+                        <span className="text-gray-500 text-xs">Recomendações específicas para a saúde feminina madura</span>
                       </div>
                     </li>
                   </ul>
@@ -136,7 +135,7 @@ const SupportStep: React.FC = () => {
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                       <User className="w-4 h-4 mr-1 text-[#7432B4]" />
-                      Histórias de recuperação
+                      Histórias de mulheres como você
                     </h3>
                     <div className="flex">
                       {testimonials.map((_, idx) => (
@@ -182,7 +181,7 @@ const SupportStep: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Certificação médica */}
+                {/* Certificação especializada para mulheres */}
                 <AnimatePresence>
                   {showCertification && (
                     <motion.div
@@ -193,23 +192,23 @@ const SupportStep: React.FC = () => {
                     >
                       <Award className="w-5 h-5 text-[#7432B4]" />
                       <span className="text-xs font-medium text-[#2D1441]">
-                        Programa Certificado pela Associação Brasileira de Fisioterapia
+                        Programa Certificado por Fisioterapeutas Especializadas em Saúde Feminina
                       </span>
                     </motion.div>
                   )}
                 </AnimatePresence>
                 
+                
+                
                 {/* CTA intermediário */}
                 <motion.button
-  onClick={() => navigate('/exercise-style')}
-  className="w-full bg-[#7432B4] text-white font-semibold py-4 px-6 rounded-2xl hover:bg-[#6822A6] transition-all shadow-sm"
-  whileHover={{ scale: 1.01 }}
-  whileTap={{ scale: 0.98 }}
->
-  Continuar Personalização
-</motion.button>
-
-                
+                  onClick={() => navigate('/exercise-style')}
+                  className="w-full bg-[#7432B4] text-white font-semibold py-4 px-6 rounded-2xl hover:bg-[#6822A6] transition-all shadow-sm"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Continuar Personalização
+                </motion.button>
               </motion.div>
             </div>
           </div>
