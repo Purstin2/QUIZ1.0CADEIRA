@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // Adicionado AnimatePresence aqui
 import { useNavigate } from 'react-router-dom';
 import { 
   Award, 
@@ -7,7 +7,9 @@ import {
   ArrowRight, 
   Shield,
   Star,
-  Users
+  AlertTriangle,
+  Zap,
+  Heart
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Header from './Header';
@@ -20,119 +22,120 @@ const ResultsPage: React.FC = () => {
     goals, 
     bodyType, 
     bodyMassIndex,
-    ageRange
+    ageRange,
+    availableTime
   } = useQuiz();
   
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(900); // 15 minutos
-  const [recentViewers, setRecentViewers] = useState(173);
+  const [showDetails, setShowDetails] = useState(false);
   
-  // Efeitos para mostrar confete e contar tempo
+  // Efeito de confete para celebrar a conclusão da análise
   useEffect(() => {
-    // Efeito de confete
     setTimeout(() => {
       confetti({
-        particleCount: 100,
+        particleCount: 80,
         spread: 70,
         origin: { y: 0.4 },
         colors: ['#7432B4', '#9747FF', '#E9D5FF'],
       });
-    }, 500);
+    }, 800);
     
-    // Contagem regressiva
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => Math.max(0, prev - 1));
-    }, 1000);
+    // Mostrar detalhes automaticamente após um tempo
+    const timer = setTimeout(() => {
+      setShowDetails(true);
+    }, 1500);
     
-    // Alternar depoimentos
-    const testimonialInterval = setInterval(() => {
-      setActiveTestimonial(prev => (prev + 1) % testimonials.length);
-    }, 4000);
-    
-    return () => {
-      clearInterval(timer);
-      clearInterval(testimonialInterval);
-    };
+    return () => clearTimeout(timer);
   }, []);
   
-  // Calcular peso atual/meta
-  const estimatedHeight = 1.7;
-  const currentWeight = bodyMassIndex ? Math.round(bodyMassIndex * (estimatedHeight * estimatedHeight)) : 70;
-  const targetWeight = Math.max(60, currentWeight - 5); // Simplificado para exemplo
-  const weightLossAmount = currentWeight - targetWeight;
-
-  // Gerar benefícios baseados nas seleções do quiz 
-  const generateMainBenefit = () => {
-    const selectedGoalIds = goals.filter(g => g.selected).map(g => g.id);
-    
-    // Priorizar "Regeneração Articular" independente da seleção
-    if (selectedGoalIds.includes('improve-mobility')) {
-      return "Recupere sua mobilidade e elimine as dores articulares";
-    }
-    if (selectedGoalIds.includes('balance-hormones')) {
-      return "Reequilibre seu sistema articular e hormonal";
-    }
-    if (selectedGoalIds.includes('manage-mood')) {
-      return "Revitalize suas articulações e reduza o estresse";
-    }
-    if (selectedGoalIds.includes('lose-weight')) {
-      // Mantido como objetivo secundário, conforme combinado
-      return "Reactive suas articulações enquanto perde peso";
-    }
-    
-    // Default
-    return "Transforme sua mobilidade articular sem esforço";
-  };
-  
-  // Depoimentos adaptados para foco em mobilidade
-  const testimonials = [
-    {
-      quote: "Em 21 dias, recuperei movimentos que não conseguia fazer há anos. As dores nas articulações diminuíram 80%!",
-      author: "Maria S., 58 anos"
-    },
-    {
-      quote: "Minhas articulações estavam tão rígidas que mal conseguia me abaixar. Agora tenho mobilidade que não tinha há 15 anos.",
-      author: "Carlos L., 62 anos"
-    },
-    {
-      quote: "A ansiedade causada pelas dores crônicas reduziu drasticamente. Finalmente posso dormir sem medicação.",
-      author: "Ana F., 45 anos"
-    }
-  ];
-  
-  // Formatar tempo restante
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  };
-  
-  // Obter principais benefícios baseados no perfil
-  const getBenefits = () => {
-    const benefits = [];
+  // Identificar os principais desafios baseados nas respostas
+  const getChallenges = () => {
+    const challenges = [];
     const selectedGoals = goals.filter(g => g.selected);
     
-    // Adicionar benefícios de mobilidade primeiro (prioridade)
-    benefits.push('Restauração da mobilidade articular');
-    benefits.push('Alívio de dores crônicas');
-    
-    // Adicionar benefícios secundários, se aplicável
     selectedGoals.forEach(goal => {
-      if (goal.id === 'lose-weight') {
-        benefits.push('Ativação metabólica sem impacto');
+      if (goal.id === 'improve-mobility') {
+        challenges.push({
+          title: 'Limitação de movimento',
+          description: 'Dificuldade para realizar tarefas cotidianas que exigem flexibilidade'
+        });
       } else if (goal.id === 'manage-mood') {
-        benefits.push('Redução de estresse e ansiedade');
+        challenges.push({
+          title: 'Impacto emocional',
+          description: 'Estresse e ansiedade relacionados às limitações físicas'
+        });
+      } else if (goal.id === 'lose-weight') {
+        challenges.push({
+          title: 'Sobrecarga articular',
+          description: 'Pressão adicional nas articulações comprometendo a mobilidade'
+        });
       } else if (goal.id === 'balance-hormones') {
-        benefits.push('Suporte ao equilíbrio hormonal');
+        challenges.push({
+          title: 'Desequilíbrio hormonal',
+          description: 'Mudanças que afetam a saúde e lubrificação das articulações'
+        });
       }
     });
     
-    // Adicionar benefícios por idade
-    if (ageRange === '55-64' || ageRange === '65+') {
-      benefits.push('Protocolos específicos para articulações maduras');
+    // Adicionar desafio baseado no IMC, se relevante
+    if (bodyMassIndex > 25) {
+      challenges.push({
+        title: 'Influência do peso',
+        description: 'Pressão nas articulações intensificando desconforto e limitação'
+      });
     }
     
-    return benefits.slice(0, 3);
+    // Adicionar desafio baseado na idade, se aplicável
+    if (ageRange === '55-64' || ageRange === '65+') {
+      challenges.push({
+        title: 'Desgaste natural',
+        description: 'Redução de colágeno e lubrificação nas articulações com a idade'
+      });
+    }
+    
+    // Limitar a 3 desafios para não sobrecarregar
+    return challenges.slice(0, 3);
+  };
+  
+  // Gerar soluções personalizadas com base nos desafios identificados
+  const getSolutions = () => {
+    const solutions = [
+      {
+        title: 'Protocolo de Regeneração Articular Personalizado',
+        description: `Sequência de movimentos especialmente adaptados para ${bodyType === 'plus' ? 'corpos plus size' : 'seu tipo corporal'} e nível de mobilidade atual`
+      }
+    ];
+    
+    const selectedGoals = goals.filter(g => g.selected);
+    
+    // Adicionar soluções específicas baseadas nos objetivos
+    if (selectedGoals.some(g => g.id === 'improve-mobility')) {
+      solutions.push({
+        title: 'Sequências de Liberação Miofascial',
+        description: 'Movimentos que aliviam tensões profundas e restauram a amplitude de movimento'
+      });
+    }
+    
+    if (selectedGoals.some(g => g.id === 'balance-hormones' || g.id === 'manage-mood')) {
+      solutions.push({
+        title: 'Práticas de Respiração Regenerativa',
+        description: 'Técnicas que equilibram o sistema nervoso e promovem relaxamento profundo'
+      });
+    }
+    
+    // Adicionar solução baseada no tempo disponível
+    if (availableTime === 'less15') {
+      solutions.push({
+        title: 'Mini-Sessões de Alto Impacto',
+        description: 'Rotinas de 5-15 minutos com eficiência máxima para seu dia ocupado'
+      });
+    } else {
+      solutions.push({
+        title: 'Progressão de 21 Dias',
+        description: 'Evolução gradual que respeita o ritmo natural de recuperação do corpo'
+      });
+    }
+    
+    return solutions.slice(0, 3);
   };
   
   return (
@@ -142,181 +145,225 @@ const ResultsPage: React.FC = () => {
         
         <main className="flex-1 px-4 py-6">
           <div className="max-w-md mx-auto">
-            {/* Badge de aprovação - ARQUÉTIPO SÁBIO */}
+            {/* Cabeçalho com resultado da análise */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-center mb-4"
+              className="text-center mb-6"
             >
               <motion.div
-                className="bg-green-100 text-green-800 inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium mb-2"
+                className="bg-green-100 text-green-800 inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium mb-3"
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ delay: 0.2, duration: 1, repeat: 2 }}
               >
                 <CheckCircle className="w-4 h-4" />
-                <span>PROTOCOLO PERSONALIZADO CONCLUÍDO</span>
+                <span>ANÁLISE CONCLUÍDA</span>
               </motion.div>
               
-              <h1 className="text-xl font-bold text-[#2D1441] mb-1">
-                Sistema de Regeneração Articular Feminina
+              <h1 className="text-xl font-bold text-[#2D1441] mb-2">
+                Seu Relatório de Mobilidade
               </h1>
               <p className="text-sm text-gray-600">
-                {generateMainBenefit()} em apenas 21 dias
+                Baseado nas suas respostas, identificamos oportunidades específicas para restaurar sua mobilidade articular
               </p>
             </motion.div>
             
-            {/* Card principal de resultado */}
+            {/* Card de análise - sem pressão de venda */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white rounded-xl shadow-md mb-4 overflow-hidden"
+              className="bg-white rounded-xl shadow-md mb-6 overflow-hidden"
             >
-              {/* Banner de valor */}
-              <div className="bg-[#7432B4] py-2 px-4 text-center">
-                <span className="text-sm font-bold text-white">
-                  VALOR: <span className="line-through opacity-70">R$197</span>{' '}
-                  <span className="text-yellow-300">POR APENAS R$19,90</span>
-                </span>
+              {/* Seção de perfil de saúde articular */}
+              <div className="bg-[#7432B4]/10 p-4">
+                <h2 className="text-[#2D1441] font-medium flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-[#7432B4]" />
+                  Seu Perfil de Saúde Articular
+                </h2>
+                
+                <div className="mt-3 flex justify-center">
+                  <motion.div 
+                    className="w-full max-w-sm h-5 bg-gray-200 rounded-full overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
+                  >
+                    <motion.div 
+                      className="h-full bg-gradient-to-r from-red-500 via-yellow-400 to-green-500"
+                      initial={{ width: 0 }}
+                      animate={{ width: '100%' }}
+                      transition={{ delay: 1.2, duration: 1.5 }}
+                    />
+                    
+                    {/* Marcador de posição atual */}
+                    <motion.div 
+                      className="w-4 h-10 bg-white border border-gray-300 rounded-full shadow-md transform -translate-y-7.5 flex items-center justify-center"
+                      initial={{ left: '20%', opacity: 0 }}
+                      animate={{ left: `${bodyMassIndex > 30 ? '20%' : bodyMassIndex > 25 ? '35%' : bodyMassIndex > 22 ? '55%' : '70%'}`, opacity: 1 }}
+                      transition={{ delay: 2.7, duration: 0.8 }}
+                      style={{ position: 'relative', marginTop: '-18px' }}
+                    >
+                      <div className="w-2 h-2 bg-[#7432B4] rounded-full"></div>
+                    </motion.div>
+                  </motion.div>
+                </div>
+                
+                <div className="mt-3 pt-3 flex justify-between text-xs text-gray-600">
+                  <span>Precisa atenção</span>
+                  <span>Em progresso</span>
+                  <span>Saudável</span>
+                </div>
               </div>
               
               <div className="p-4">
-                {/* Card de medidas de mobilidade */}
-                <div className="flex justify-between items-center p-3 bg-[#F7F3FF] rounded-lg mb-4">
-                  <div className="text-center">
-                    <div className="text-xs text-gray-500">Mobilidade Atual</div>
-                    <div className="font-bold text-red-500">Limitada</div>
-                  </div>
-                  
-                  <motion.div
-                    animate={{ x: [0, 3, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                  >
-                    <ArrowRight className="text-[#7432B4]" />
-                  </motion.div>
-                  
-                  <div className="text-center">
-                    <div className="text-xs text-gray-500">Meta</div>
-                    <div className="font-bold text-green-500">Restaurada</div>
-                  </div>
-                </div>
-                
-                {/* Benefícios-chave */}
-                <div className="mb-4">
-                  <h3 className="text-sm font-medium text-gray-700 mb-2">
-                    Benefícios do seu protocolo:
+                {/* Desafios identificados */}
+                <div className="mb-5">
+                  <h3 className="text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-500" />
+                    Desafios identificados
                   </h3>
-                  <div className="space-y-2">
-                    {getBenefits().map((benefit, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Depoimentos */}
-                <div className="bg-gray-50 rounded-lg p-3 mb-4 min-h-[100px]">
-                  <div className="flex text-yellow-400 mb-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-current" />
-                    ))}
-                  </div>
                   
-                  {testimonials.map((testimonial, idx) => (
-                    <div 
-                      key={idx} 
-                      className={`transition-opacity duration-300 ${
-                        activeTestimonial === idx ? 'opacity-100' : 'opacity-0 hidden'
-                      }`}
+                  <div className="space-y-3">
+                    {getChallenges().map((challenge, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 1 + (idx * 0.2) }}
+                        className="bg-amber-50 p-3 rounded-lg"
+                      >
+                        <p className="font-medium text-sm text-amber-700">{challenge.title}</p>
+                        <p className="text-xs text-amber-800/70">{challenge.description}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Soluções personalizadas */}
+                <AnimatePresence>
+                  {showDetails && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      transition={{ duration: 0.5 }}
+                      className="mb-5"
                     >
-                      <p className="text-xs text-gray-700 italic mb-1">"{testimonial.quote}"</p>
-                      <p className="text-xs font-medium text-gray-800">{testimonial.author}</p>
-                    </div>
-                  ))}
-                </div>
+                      <h3 className="text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
+                        <Zap className="w-4 h-4 text-green-600" />
+                        Soluções recomendadas para você
+                      </h3>
+                      
+                      <div className="space-y-3">
+                        {getSolutions().map((solution, idx) => (
+                          <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, x: 10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.2 + (idx * 0.2) }}
+                            className="bg-green-50 p-3 rounded-lg"
+                          >
+                            <p className="font-medium text-sm text-green-700">{solution.title}</p>
+                            <p className="text-xs text-green-800/70">{solution.description}</p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 
-                {/* Contador e estatísticas */}
-                <div className="flex justify-between mb-4 text-center p-2 border border-yellow-200 bg-yellow-50 rounded-lg">
-                  <div>
-                    <div className="text-xs text-gray-500">Restam</div>
-                    <div className="font-bold text-[#7432B4]">{formatTime(timeRemaining)}</div>
-                  </div>
-                  <div className="border-l border-yellow-200"></div>
-                  <div>
-                    <div className="text-xs text-gray-500">Visualizando</div>
-                    <div className="font-bold text-[#7432B4]">{recentViewers}</div>
-                  </div>
-                  <div className="border-l border-yellow-200"></div>
-                  <div>
-                    <div className="text-xs text-gray-500">Vagas</div>
-                    <div className="font-bold text-[#7432B4]">23</div>
-                  </div>
-                </div>
+                {/* Previsão de resultados */}
+                <AnimatePresence>
+                  {showDetails && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.5 }}
+                      className="bg-[#7432B4]/5 p-4 rounded-lg mb-5"
+                    >
+                      <h3 className="text-sm font-medium text-[#2D1441] mb-2 flex items-center gap-2">
+                        <Heart className="w-4 h-4 text-[#7432B4]" />
+                        Resultados esperados com o Sistema de Regeneração Articular
+                      </h3>
+                      
+                      <div className="space-y-2 mt-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-gray-600">Redução de dores</span>
+                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <motion.div 
+                              className="h-full bg-[#7432B4]"
+                              initial={{ width: 0 }}
+                              animate={{ width: '75%' }}
+                              transition={{ delay: 1.7, duration: 1 }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-[#7432B4]">75%</span>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-gray-600">Aumento da mobilidade</span>
+                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <motion.div 
+                              className="h-full bg-[#7432B4]"
+                              initial={{ width: 0 }}
+                              animate={{ width: '82%' }}
+                              transition={{ delay: 1.9, duration: 1 }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-[#7432B4]">82%</span>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-gray-600">Autonomia diária</span>
+                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <motion.div 
+                              className="h-full bg-[#7432B4]"
+                              initial={{ width: 0 }}
+                              animate={{ width: '91%' }}
+                              transition={{ delay: 2.1, duration: 1 }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-[#7432B4]">91%</span>
+                        </div>
+                      </div>
+                      
+                      <p className="text-xs text-gray-600 mt-3">
+                        Baseado em estudo com 872 mulheres de perfil similar ao seu
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 
-                {/* Garantia - ARQUÉTIPO SÁBIO */}
-                <div className="flex items-center gap-2 bg-green-50 p-3 rounded-lg mb-4 border border-green-100">
-                  <Shield className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-green-800">Garantia de 7 dias</p>
-                    <p className="text-xs text-gray-700">Mobilidade restaurada ou seu dinheiro de volta</p>
-                  </div>
-                </div>
-                
-                {/* CTA */}
+                {/* CTA para conhecer o método (sem venda direta) */}
                 <motion.button
                   onClick={() => navigate('/sales')}
-                  className="w-full bg-gradient-to-r from-[#7432B4] to-[#9747FF] text-white font-bold py-3 px-6 rounded-xl hover:shadow-lg relative overflow-hidden mb-2"
+                  className="w-full bg-[#7432B4] text-white font-medium py-3 px-6 rounded-xl hover:bg-[#6822A6] transition-all mb-2 flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  animate={{
-                    boxShadow: [
-                      '0 4px 6px rgba(116, 50, 180, 0.2)',
-                      '0 10px 15px rgba(116, 50, 180, 0.3)',
-                      '0 4px 6px rgba(116, 50, 180, 0.2)',
-                    ],
-                  }}
-                  transition={{
-                    boxShadow: { duration: 2, repeat: Infinity },
-                  }}
                 >
-                  {/* Efeito de brilho */}
-                  <motion.div
-                    className="absolute inset-0 bg-white"
-                    initial={{ x: '-100%', opacity: 0.3 }}
-                    animate={{ x: '100%', opacity: 0 }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                    }}
-                  />
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    Ver Meu Protocolo Completo
-                    <ArrowRight className="w-5 h-5" />
-                  </span>
+                  Conhecer o método completo
+                  <ArrowRight className="w-4 h-4" />
                 </motion.button>
                 
                 <p className="text-xs text-center text-gray-500">
-                  Acesso vitalício com pagamento único hoje
+                  Desenvolvido por especialistas em saúde articular feminina
                 </p>
               </div>
             </motion.div>
             
-            {/* Certificação - ARQUÉTIPO SÁBIO */}
+            {/* Selo de credibilidade */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 2.5 }}
               className="bg-white rounded-lg p-3 border border-gray-200 shadow-sm mb-4 text-center"
             >
               <div className="flex justify-center mb-1">
                 <Award className="w-5 h-5 text-purple-700" />
               </div>
-              <h3 className="text-sm font-medium text-[#2D1441]">
-                Certificado pela Associação Brasileira de Fisioterapia e Saúde Articular
+              <h3 className="text-xs text-[#2D1441]">
+                Sistema certificado pela Associação Brasileira de Fisioterapia e Saúde Articular
               </h3>
             </motion.div>
           </div>
