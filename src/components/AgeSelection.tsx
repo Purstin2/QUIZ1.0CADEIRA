@@ -39,14 +39,17 @@ const AgeSelection: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-white">
       <div className="flex-1 flex flex-col items-center px-4 pt-8">
         <h1 className="text-[28px] font-extrabold text-[#2D1441] text-center leading-tight mb-2">
-          DESCUBRA O PLANO IDEAL PRO SEU TIPO DE CORPO SEM SAIR DA CADEIRA 🪑
+          CRIE UM PLANO IDEAL PRO SEU TIPO DE CORPO SEM SAIR DA CADEIRA 🪑
         </h1>
         <p className="text-gray-600 text-center mb-2">
-          Mini-exercícios diários personalizados para o seu tipo de corpo
+          Mini-exercícios diários baseados na sua rotina, limitações, e tipo de corpo.
         </p>
-        <button className="bg-[#7432B4] text-white px-6 py-2 rounded-full text-sm font-medium mb-8">
-          TESTE DE 2 MINUTOS
-        </button>
+        <button
+  className="bg-[#7432B4] text-white px-3 py-0.5 rounded-full font-medium mb-6"
+  style={{ fontSize: '0.65rem' }}
+>
+  TESTE DE 2 MINUTOS
+</button>
 
         <div className="grid grid-cols-2 gap-3 w-full max-w-md mb-8">
           {[['35-44', '45-54'], ['55-64', '65+']].map((row, i) => (

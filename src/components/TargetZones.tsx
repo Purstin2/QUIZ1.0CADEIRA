@@ -58,7 +58,7 @@ const TargetZones: React.FC = () => {
   };
 
   const handleContinue = () => {
-    navigate('/activity-level');
+    navigate('/body-type');
   };
 
   return (
