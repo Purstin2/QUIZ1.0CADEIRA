@@ -31,8 +31,12 @@ const pageTransition = {
 };
 
 const AnimatedPage: React.FC<AnimatedPageProps> = ({ children }) => {
-  // Preload images
+  // Preload images e rolar para o topo quando o componente montar
   useEffect(() => {
+    // Rolar para o topo da página
+    window.scrollTo(0, 0);
+    
+    // Preload images (funcionalidade existente)
     const images = document.querySelectorAll('img');
     images.forEach(img => {
       if (img.src) {
