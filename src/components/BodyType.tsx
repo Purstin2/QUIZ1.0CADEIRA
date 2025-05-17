@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useQuiz } from '../context/QuizContext';
 import AnimatedPage from './AnimatedPage';
-import Header from './Header';
 
 const BodyType: React.FC = () => {
   const navigate = useNavigate();
   const { setBodyType } = useQuiz();
-
-  const handleSelection = (type: 'normal' | 'curvy' | 'plus') => {
-    setBodyType(type);
-    navigate('/dream-body');
-  };
+  const [selected, setSelected] = useState<string | null>(null);
 
   const bodyTypes = [
     {
@@ -34,42 +30,64 @@ const BodyType: React.FC = () => {
     }
   ];
 
+  const handleSelection = (type: 'normal' | 'curvy' | 'plus') => {
+    setSelected(type);
+    setBodyType(type);
+    setTimeout(() => {
+      navigate('/dream-body');
+    }, 300);
+  };
+
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
-        <div className="flex-1 flex flex-col items-center px-4">
+        <div className="flex-1 flex flex-col items-center px-4 pt-7">
           <div className="w-full max-w-md">
-            <h2 className="text-2xl font-bold text-[#2D1441] mb-6 text-center">
+            <h2 className="text-2xl font-bold text-[#2D1441] mb-8 text-center">
               Qual é seu tipo de corpo?
             </h2>
-          
-            <div className="space-y-4">
+
+            <section className="space-y-2.5 mb-6" aria-label="Lista de tipos de corpo">
               {bodyTypes.map((type) => (
-                <button
+                <motion.button
                   key={type.value}
                   onClick={() => handleSelection(type.value as 'normal' | 'curvy' | 'plus')}
-                  className="w-full p-4 flex items-center gap-4 rounded-xl border border-gray-200 hover:border-[#7432B4] hover:bg-[#7432B4] hover:bg-opacity-5 transition-all group"
+                  className={`w-full flex items-center p-4 rounded-2xl border relative transition ${
+                    selected === type.value
+                      ? 'bg-gradient-to-r from-[#7432B4]/5 to-[#7432B4]/10 border-[#7432B4] shadow-sm'
+                      : 'bg-white border-gray-200 hover:border-gray-300'
+                  }`}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                 >
-                  <div className="bg-[#7432B4] bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
+                  {/* Imagem com tamanho consistente e arredondamento */}
+                  <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
                     <img 
                       src={type.image} 
                       alt={type.label}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="text-left">
-                    <span className="text-gray-800 group-hover:text-[#2D1441] font-medium block">
-                      {type.label}
-                    </span>
-                    <span className="text-gray-500 text-sm block">
-                      {type.description}
-                    </span>
+
+                  {/* Texto */}
+                  <div className="text-left flex-1 ml-3">
+                    <div className="font-medium text-gray-800">{type.label}</div>
+                    <div className="text-sm text-gray-500">{type.description}</div>
                   </div>
-                </button>
+
+                  {/* Indicador de seleção */}
+                  {selected === type.value && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute right-4 w-5 h-5 bg-[#7432B4] rounded-full flex items-center justify-center text-white text-xs shadow-md"
+                    >
+                      ✓
+                    </motion.div>
+                  )}
+                </motion.button>
               ))}
-            </div>
-            
+            </section>
           </div>
         </div>
       </div>

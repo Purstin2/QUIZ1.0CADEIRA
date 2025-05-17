@@ -514,6 +514,7 @@ const ProfileSummary: React.FC = () => {
                     ))}
                   </div>
 
+
                   <div className="mt-4 pt-4 border-t border-gray-100 text-xs text-gray-500 text-center">
                     Percentuais baseados em estudo clínico com 450 participantes
                     após 21 dias de prática
@@ -521,6 +522,7 @@ const ProfileSummary: React.FC = () => {
                 </motion.div>
               )}
             </AnimatePresence>
+
 
             {/* Botão de continuação com urgência */}
             <AnimatePresence>
@@ -531,7 +533,7 @@ const ProfileSummary: React.FC = () => {
                   className="text-center"
                 >
                   <motion.button
-                    onClick={() => navigate('/plan-definitive')}
+                    onClick={() => navigate('/results')}
                     className="w-full bg-gradient-to-r from-[#7432B4] to-[#9747FF] text-white font-bold text-lg py-4 px-8 rounded-xl hover:from-[#6822A6] hover:to-[#8740E6] transition-colors shadow-lg mb-2 relative overflow-hidden"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}

@@ -74,25 +74,26 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
 
   const quizSequence = [
     '/',                         // Age Selection
-  '/sex-selection',            // Sex Selection
-  '/community',                // Community Page
-  '/goals',                    // Goals Selection
-  '/chair-yoga-experience',    // Chair Yoga Experience
-  '/target-zones',             // Target Zones
-  '/body-type',                // Body Type
-  '/dream-body',               // Dream Body
-  '/activity-level',           // Activity Level
-  '/walking-time',             // Walking Time
-  '/yoga-level',               // Yoga Level
-  '/sensitivity-check',        // Sensitivity Check
-  '/support-step',             // Suporte emocional (condicional)
-  '/exercise-style',           // Exercise Style
-  '/available-time',           // Available Time
-  '/bmi-calculator',           // BMI Calculator 
-  '/Results',                  // Nova página consolidada
-  '/sales',                    // Sales Page otimizada
-  '/checkout',                 // Checkout 
-  '/success'                   // Success Page
+    '/sex-selection',            // Sex Selection
+    '/community',                // Community Page
+    '/goals',                    // Goals Selection
+    '/chair-yoga-experience',    // Chair Yoga Experience
+    '/target-zones',             // Target Zones
+    '/body-type',                // Body Type
+    '/dream-body',               // Dream Body
+    '/activity-level',           // Activity Level
+    '/walking-time',             // Walking Time
+    '/yoga-level',               // Yoga Level
+    '/sensitivity-check',        // Sensitivity Check
+    '/support-step',             // Suporte emocional (condicional)
+    '/exercise-style',           // Exercise Style
+    '/available-time',           // Available Time
+    '/bmi-calculator',           // BMI Calculator
+    '/profile-summary',          // Mantendo a página de perfil original
+    '/results',                  // Nova página otimizada (substitui PlanDefinitive, CreatingPlan, PlanReady)
+    '/sales',                    // Sales Page otimizada
+    '/checkout',                 // Checkout 
+    '/success'                   // Success Page
   ];
 
   const getNextRoute = (currentRoute: string): string => {
