@@ -5,7 +5,6 @@ import { useQuiz } from '../context/QuizContext';
 import AnimatedPage from './AnimatedPage';
 import EmailCaptureModal from './EmailCaptureModal';
 
-// Header personalizado sem o texto "OBJETIVOS"
 const CustomHeader = () => {
   return (
     <header className="px-4 py-4">
@@ -27,32 +26,28 @@ const GoalsSelection: React.FC = () => {
   const [userInsight, setUserInsight] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
 
-  // Sistema dinâmico de insights personalizados para mulheres 40+
+  // Insights revisados com foco na mobilidade articular
   const insights = {
-    'lose-weight': 'Em mulheres 40+, o metabolismo naturalmente desacelera. Nosso método foi criado especificamente para ativar o metabolismo feminino nesta fase da vida.',
-    'manage-mood': 'Oscilações de humor e ansiedade são comuns durante mudanças hormonais. Nossas técnicas exclusivas promovem equilíbrio emocional e melhor qualidade do sono.',
-    'balance-hormones': 'Desequilíbrios hormonais afetam 80% das mulheres na meia-idade. Desenvolvemos movimentos específicos para ajudar na harmonização hormonal natural.',
-    'improve-mobility': 'Após os 45 anos, mais de 60% das mulheres enfrentam redução de mobilidade. Nosso programa foi desenvolvido por fisioterapeutas especializadas em saúde feminina.',
-    'enhance-skin': 'Movimentos específicos de yoga na cadeira melhoram a circulação e oxigenação da pele, diminuindo o aparecimento de rugas e ressecamento comum após os 40.',
-    'improve-heart': 'A saúde cardíaca feminina requer atenção especial após os 40. Apenas 15 minutos de exercícios diários podem reduzir o risco cardiovascular em até 30%.'
+    'lose-weight': 'O excesso de peso sobrecarrega as articulações, intensificando dores. Nosso método ativa o metabolismo e alivia a pressão nas articulações.',
+    'manage-mood': 'Dores crônicas frequentemente levam a estresse e ansiedade. Nossos exercícios liberam endorfinas naturais que melhoram o humor enquanto reabilitam seu corpo.',
+    'balance-hormones': 'As flutuações hormonais na meia-idade afetam diretamente a lubrificação articular e densidade óssea. Desenvolvemos movimentos que auxiliam na regulação hormonal natural.',
+    'improve-mobility': 'A rigidez articular afeta 72% das mulheres após os 40 anos. Nosso programa foi desenvolvido por fisioterapeutas especializadas em biomecânica feminina.',
+    'enhance-skin': 'A microcirculação ativada pelos exercícios específicos melhora o aspecto da pele, enquanto os movimentos reduzem a tensão facial e cervical que causa linhas de expressão.',
+    'improve-heart': 'Exercícios adaptados aumentam a circulação e fortalecem o coração sem impacto nas articulações sensíveis.'
   };
 
   useEffect(() => {
     const count = goals.filter(g => g.selected).length;
     setSelectedCount(count);
-
-    // Sistema de pontos para gamificação interna
     const basePoints = count * 10;
     const bonusPoints = count >= 2 ? 15 : 0;
     setPoints(basePoints + bonusPoints);
-
-    // Estágios de progresso para desbloqueio de elementos
+    
     if (count >= 3) setProgressStage(3);
     else if (count >= 2) setProgressStage(2);
     else if (count >= 1) setProgressStage(1);
     else setProgressStage(0);
-
-    // Sistema de insights baseado na seleção mais recente
+    
     const selectedGoals = goals.filter(g => g.selected);
     if (selectedGoals.length > 0) {
       const latestGoal = selectedGoals[selectedGoals.length - 1];
@@ -64,8 +59,6 @@ const GoalsSelection: React.FC = () => {
     if (!isProcessing) {
       toggleGoal(id);
       setFocusedGoal(id);
-
-      // Reset do foco após breve delay
       setTimeout(() => {
         setFocusedGoal(null);
       }, 800);
@@ -75,31 +68,27 @@ const GoalsSelection: React.FC = () => {
   const handleNextStep = () => {
     if (selectedCount > 0) {
       setSelectedGoalsCount(selectedCount);
-      // Mostrar o modal antes de navegar
       setShowEmailModal(true);
     }
   };
 
   const handleEmailModalComplete = (emailCaptured = false) => {
     setShowEmailModal(false);
-    // Se email foi capturado, salvar no contexto
     if (emailCaptured) {
       console.log('Email capturado com sucesso!');
     }
-    // Proceder com a navegação
-    navigate('/body-type'); // Atualizado para a nova sequência
+    navigate('/body-type');
   };
 
-  // Reorganização dos objetivos para priorizar questões femininas 40+
+  // Reordenação dos objetivos com foco em mobilidade e articulações
   const prioritizedGoals = [...goals].sort((a, b) => {
-    // Priorizar metas mais relevantes para mulheres 40+
     const priorityOrder = {
-      'balance-hormones': 1,
-      'improve-mobility': 2,
-      'lose-weight': 3,
-      'manage-mood': 4,
-      'enhance-skin': 5,
-      'improve-heart': 6
+      'improve-mobility': 1,    // Prioridade máxima para mobilidade
+      'balance-hormones': 2,    // Segundo mais relevante
+      'manage-mood': 3,         // Movido para cima - relação com dores
+      'improve-heart': 4,       // Movido para cima - saúde sistêmica
+      'lose-weight': 5,         // Movido para baixo - benefício secundário
+      'enhance-skin': 6         // Menor prioridade
     };
     
     return (priorityOrder[a.id as keyof typeof priorityOrder] || 99) - 
@@ -109,12 +98,11 @@ const GoalsSelection: React.FC = () => {
   return (
     <AnimatedPage>
       <div className="flex flex-col min-h-screen bg-white">
-        {/* Substituímos o Header padrão pelo personalizado */}
         <CustomHeader />
 
         <main className="flex-1 flex flex-col px-4">
           <div className="w-full max-w-md mx-auto">
-            {/* Título principal com copy persuasiva para mulheres 30+ */}
+            {/* ARQUÉTIPO CUIDADOR - Empatia com dores */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -122,18 +110,17 @@ const GoalsSelection: React.FC = () => {
               className="text-center mb-5"
             >
               <h2 className="text-2xl font-bold text-[#2D1441] mb-3 text-center">
-                O que você deseja transformar em sua vida?
+                Quais limitações você deseja superar?
               </h2>
               <p className="text-gray-600 text-sm">
-                Escolha seus objetivos e criaremos um plano{' '}
+                Selecionando seus desafios atuais, criaremos um{' '}
                 <span className="font-semibold text-[#7432B4]">
-                  personalizado
+                  protocolo de regeneração articular
                 </span>{' '}
-                que responde às suas necessidades específicas.
+                específico para suas necessidades.
               </p>
             </motion.div>
 
-            {/* Objetivos reordenados estrategicamente */}
             <section className="space-y-2.5 mb-5" aria-label="Lista de objetivos">
               {prioritizedGoals.map((goal) => (
                 <button
@@ -163,7 +150,6 @@ const GoalsSelection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Indicador visual de seleção */}
                   {goal.selected && (
                     <div className="bg-[#7432B4] rounded-full flex items-center justify-center text-white text-sm w-5 h-5">
                       <svg
@@ -184,9 +170,8 @@ const GoalsSelection: React.FC = () => {
               ))}
             </section>
 
-            {/* Área de insights femininos específicos */}
+            {/* ARQUÉTIPO MAGO - Apresentando a possibilidade de transformação */}
             <div className="space-y-4 mb-5">
-              {/* Plano premium - visível após 3+ seleções */}
               <AnimatePresence>
                 {progressStage >= 3 && (
                   <motion.div
@@ -210,10 +195,10 @@ const GoalsSelection: React.FC = () => {
                         </div>
                         <div>
                           <h3 className="font-semibold text-purple-800 mb-1">
-                            Programa Avançado Feminino Ativado:
+                            Protocolo Avançado de Regeneração Ativado:
                           </h3>
                           <p className="text-sm text-purple-700">
-                            Seu perfil multidimensional requer um método adaptado às necessidades específicas do corpo feminino 30+. Cada exercício será personalizado para atender às suas múltiplas metas, maximizando resultados com movimentos adequados à sua fisiologia.
+                            Sua avaliação indica necessidade de um método multidimensional para reequilibrar seu sistema articular. Identificamos padrões específicos que podem ser transformados em apenas 21 dias com nosso Sistema de Regeneração Articular.
                           </p>
                         </div>
                       </div>
@@ -223,7 +208,6 @@ const GoalsSelection: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Botão de continuar */}
             <motion.button
               onClick={handleNextStep}
               className={`w-full font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg transition-all ${
@@ -237,10 +221,10 @@ const GoalsSelection: React.FC = () => {
             >
               <span>
                 {selectedCount === 0
-                  ? 'Selecione pelo menos um objetivo'
-                  : `Continuar com ${selectedCount} ${
-                      selectedCount === 1 ? 'objetivo' : 'objetivos'
-                    }`}
+                  ? 'Selecione pelo menos um desafio'
+                  : `Criar meu protocolo personalizado (${selectedCount} ${
+                      selectedCount === 1 ? 'área' : 'áreas'
+                    })`}
               </span>
             </motion.button>
           </div>

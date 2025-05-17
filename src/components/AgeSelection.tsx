@@ -37,7 +37,7 @@ const AgeSelection: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <div className="flex-1 flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-10 pb-6">
-        {/* Badge de Quiz/Teste */}
+        {/* Badge de Quiz/Teste - ARQUÉTIPO CUIDADOR */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,20 +45,18 @@ const AgeSelection: React.FC = () => {
           className="flex items-center gap-2 bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium mb-6"
         >
           <Clock className="w-4 h-4" />
-          <span>TESTE RÁPIDO GRATUITO</span>
+          <span>AVALIAÇÃO GRATUITA DE MOBILIDADE</span>
         </motion.div>
 
-        {/* Title */}
+        {/* Title - Ênfase no problema (CUIDADOR) */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#2D1441] text-center leading-tight mb-4 max-w-3xl">
-          DESCUBRA SEU PLANO PERSONALIZADO DE{' '}
-          <span className="text-[#7432B4]">YOGA NA CADEIRA</span> EM 2 MINUTOS
+          DESCUBRA SEU PROGRAMA PERSONALIZADO DE{' '}
+          <span className="text-[#7432B4]">REGENERAÇÃO ARTICULAR</span> EM 2 MINUTOS
         </h1>
 
-        {/* Subtitle */}
+        {/* Subtitle - Problema + Solução (CUIDADOR) */}
         <p className="text-gray-600 text-sm sm:text-base text-center mb-8 max-w-md sm:max-w-lg lg:max-w-xl">
-          <span className="font-semibold">Para mulheres 35+</span> que querem
-          exercícios adaptados à sua idade, corpo e limitações. Desenvolvido por
-          fisioterapeutas especializados
+          <span className="font-semibold">Para mulheres 35+ que sofrem com limitações de movimento e dores articulares.</span> Método desenvolvido por fisioterapeutas especializados em saúde feminina.
         </p>
 
         {/* Age Selection Buttons */}
@@ -88,7 +86,7 @@ const AgeSelection: React.FC = () => {
           ))}
         </div>
 
-        {/* User Stats */}
+        {/* Social Proof - Confiança (SÁBIO) */}
         <div className="w-full max-w-md sm:max-w-lg lg:max-w-2xl mb-10">
           <div className="flex items-center justify-center gap-4 mb-3">
             <div className="flex -space-x-2">
@@ -114,7 +112,7 @@ const AgeSelection: React.FC = () => {
                   <Star
                     key={i}
                     size={16}
-                    className={i < 5 ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-200 text-gray-200'}
+                    className="fill-yellow-400 text-yellow-400"
                   />
                 ))}
               </div>
@@ -123,22 +121,17 @@ const AgeSelection: React.FC = () => {
           </div>
           <p className="text-sm sm:text-base text-center text-gray-600">
             <span className="font-semibold text-[#7432B4]">{recentUsers}</span>{' '}
-            mulheres já descobriram seu plano personalizado hoje
+            mulheres recuperaram sua mobilidade com nosso método exclusivo
           </p>
         </div>
 
         {/* Footer Text */}
         <div className="text-xs sm:text-sm text-gray-500 text-center max-w-md sm:max-w-lg lg:max-w-2xl px-4">
           Ao continuar, eu concordo com os{' '}
-          <span className="underline">Termos de Serviço</span>,{' '}
-          <span className="underline">Política de Privacidade</span>,{' '}
-          <span className="underline">Política de Dados</span>,{' '}
-          <span className="underline">Assinatura</span>,{' '}
-          <span className="underline">Reembolso</span>, e{' '}
-          <span className="underline">Cookies</span> (incluindo o uso de rastreamento).
+          <span className="underline">Termos de Serviço</span> e{' '}
+          <span className="underline">Política de Privacidade</span>.
           <br />
-          Receba dicas valiosas sobre produtos, serviços e ofertas especiais da
-          FENJES.COM por e-mail!
+          Receba dicas exclusivas sobre mobilidade articular e recuperação física.
         </div>
       </div>
     </div>
