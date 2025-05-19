@@ -23,7 +23,7 @@ import SalesPage from './components/SalesPage';
 import Checkout from './components/Checkout';
 import SuccessPage from './components/SuccessPage';
 import ProgressBar from './components/ProgressBar';
-import ExitIntentModal from './components/ExitIntentModal';
+// import ExitIntentModal from './components/ExitIntentModal';
 import QuickNav from './components/QuickNav';
 import { QuizProvider } from './context/QuizContext';
 
@@ -61,7 +61,7 @@ function App() {
           </Routes>
         </AnimatePresence>
         
-        <ExitIntentModal />
+        {/* <ExitIntentModal /> */}
         <QuickNav />
       </QuizProvider>
     </div>
