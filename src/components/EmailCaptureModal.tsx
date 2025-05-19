@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, X } from 'lucide-react';
 import { useQuiz } from '../context/QuizContext';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 interface EmailCaptureModalProps {
   onClose: () => void;
@@ -11,25 +18,47 @@ interface EmailCaptureModalProps {
 const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({ onClose, onSubmit }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { setEmail: saveEmailToContext } = useQuiz();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submit button clicked, email:', email);
+    setError(null);
+
     if (email && email.includes('@')) {
-      saveEmailToContext(email);
-      setSubmitted(true);
-      // Enviar para API/backend para captura do lead (optional)
-      setTimeout(() => {
-        console.log('Calling onSubmit with email:', email);
-        onSubmit(email); // Trigger onSubmit to notify GoalsSelection
-      }, 2000);
+      try {
+        // Save email to Supabase
+        const { error: supabaseError } = await supabase
+          .from('emails')
+          .insert([{ email }]);
+
+        if (supabaseError) {
+          if (supabaseError.code === '23505') { // Unique violation
+            setError('Este email já está cadastrado.');
+            return;
+          }
+          throw supabaseError;
+        }
+
+        // Save to context and show success
+        saveEmailToContext(email);
+        setSubmitted(true);
+        
+        // Notify parent after delay
+        setTimeout(() => {
+          onSubmit(email);
+        }, 2000);
+      } catch (err) {
+        console.error('Error saving email:', err);
+        setError('Ocorreu um erro ao salvar seu email. Tente novamente.');
+      }
+    } else {
+      setError('Por favor, insira um email válido.');
     }
   };
 
   const handleClose = () => {
-    console.log('Close button clicked');
-    onClose(); // Trigger onClose to close modal and navigate
+    onClose();
   };
 
   return (
@@ -64,7 +93,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({ onClose, onSubmit
                   Para onde devemos enviar seu plano personalizado?
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
-                Informe seu Melhor E-mail para receber seu plano personalizado ao final do Quiz.
+                  Informe seu Melhor E-mail para receber seu plano personalizado ao final do Quiz.
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-4">
@@ -74,9 +103,14 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({ onClose, onSubmit
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Seu melhor email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7432B4] focus:border-[#7432B4] outline-none"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7432B4] focus:border-[#7432B4] outline-none ${
+                        error ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                      }`}
                       required
                     />
+                    {error && (
+                      <p className="text-red-500 text-xs mt-1">{error}</p>
+                    )}
                   </div>
                   <button
                     type="submit"
