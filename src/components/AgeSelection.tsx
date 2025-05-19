@@ -50,9 +50,9 @@ const AgeSelection: React.FC = () => {
 
         {/* Title - Ênfase no problema (CUIDADOR) */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#2D1441] text-center leading-tight mb-4 max-w-3xl">
-          DESCUBRA SEU PROGRAMA PERSONALIZADO DE{' '}
-          <span className="text-[#7432B4]">REGENERAÇÃO ARTICULAR</span> EM 2 MINUTOS
-        </h1>
+  DESCUBRA SEU MÉTODO PERSONALIZADO DE{' '}
+  <span className="text-[#7432B4]">YOGA NA CADEIRA</span> EM 2 MINUTOS
+</h1>
 
         {/* Subtitle - Problema + Solução (CUIDADOR) */}
         <p className="text-gray-600 text-sm sm:text-base text-center mb-8 max-w-md sm:max-w-lg lg:max-w-xl">
