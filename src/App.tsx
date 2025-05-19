@@ -61,7 +61,7 @@ function App() {
           </Routes>
         </AnimatePresence>
         
-        <ExitIntentModal />
+        // ExitIntentModal />
         <QuickNav />
       </QuizProvider>
     </div>
