@@ -313,7 +313,7 @@ const ProfileSummary: React.FC = () => {
                       getBmiCategory(bodyMassIndex).color
                     }`}
                   >
-                    {bodyMassIndex.toFixed(1)}
+                   {bodyMassIndex ? bodyMassIndex.toFixed(1) : '0.0'}
                   </span>
                 </div>
 
