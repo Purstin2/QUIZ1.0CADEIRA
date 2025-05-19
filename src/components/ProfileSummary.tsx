@@ -38,32 +38,25 @@ const ProfileSummary: React.FC = () => {
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [countdown, setCountdown] = useState(5);
 
-  // Simula análise em tempo real para aumentar a percepção de valor
   useEffect(() => {
-    // Mostrar alerta de risco se aplicável (IMC > 25)
     if (bodyMassIndex && bodyMassIndex > 25) {
       setTimeout(() => {
         setShowRiskAlert(true);
       }, 1000);
     }
 
-    // Mostrar benefícios personalizados
     setTimeout(() => {
       setShowBenefits(true);
     }, 2000);
 
-    // Análise completa
     setTimeout(() => {
       setAnalysisComplete(true);
     }, 3000);
 
-    // Countdown para continuar automaticamente (urgência)
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          // Para não navegar automaticamente, remova esta linha
-          // navigate('/plan-definitive');
           return 0;
         }
         return prev - 1;
@@ -73,7 +66,6 @@ const ProfileSummary: React.FC = () => {
     return () => clearInterval(timer);
   }, [bodyMassIndex, navigate]);
 
-  // Define fitness level based on quiz data
   const getFitnessLevel = () => {
     if (chairYogaExperience === 'regular') return 'Avançado';
     if (chairYogaExperience === 'tried') return 'Intermediário';
@@ -108,18 +100,15 @@ const ProfileSummary: React.FC = () => {
     };
   };
 
-  // Determinar principais benefícios com base nos objetivos e perfil
   const getPersonalizedBenefits = () => {
     const benefitsList = [];
 
-    // Benefícios base sempre incluídos
     benefitsList.push({
       title: 'Melhora significativa da postura',
       description: 'Redução de dores e tensões musculares',
       percentage: '82%',
     });
 
-    // Benefícios específicos para objetivos selecionados
     const selectedGoalIds = goals.filter((g) => g.selected).map((g) => g.id);
 
     if (selectedGoalIds.includes('lose-weight')) {
@@ -158,7 +147,6 @@ const ProfileSummary: React.FC = () => {
       });
     }
 
-    // Se tivermos poucos benefícios específicos, adicione alguns gerais
     if (benefitsList.length < 4) {
       benefitsList.push({
         title: 'Mais energia no dia-a-dia',
@@ -175,33 +163,27 @@ const ProfileSummary: React.FC = () => {
       }
     }
 
-    return benefitsList.slice(0, 4); // Limitar a 4 benefícios para não sobrecarregar
+    return benefitsList.slice(0, 4);
   };
 
-  // Estimar tempo para primeiros resultados
   const getTimeToResults = () => {
-    // Usar os dados do quiz para personalizar a estimativa
     if (chairYogaExperience === 'regular') return '5-7 dias';
     if (chairYogaExperience === 'tried') return '7-14 dias';
     return '14-21 dias';
   };
 
-  // Estimar potencial de transformação
   const getTransformationPotential = () => {
-    let score = 72; // Base score
+    let score = 72;
 
-    // Ajustes baseados nos dados do questionário
     if (chairYogaExperience === 'never') score -= 5;
     if (chairYogaExperience === 'regular') score += 10;
     if (bodyMassIndex && bodyMassIndex > 30) score += 8;
     if (availableTime === 'more30') score += 5;
     if (availableTime === 'less15') score -= 3;
 
-    // Limitar entre 65-98% para credibilidade
     return Math.min(98, Math.max(65, score));
   };
 
-  // Data de prazo estimada (21 dias a partir de hoje)
   const getTargetDate = () => {
     const today = new Date();
     const targetDate = new Date(today);
@@ -218,9 +200,8 @@ const ProfileSummary: React.FC = () => {
     <AnimatedPage>
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#F7F3FF] to-white">
         <Header />
-        <main className="flex-1 px-6 py-5">
+        <main className="flex-1 px-4 py-6">
           <div className="max-w-lg mx-auto">
-            {/* Cabeçalho animado com sensação de análise em tempo real */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -290,14 +271,12 @@ const ProfileSummary: React.FC = () => {
               </p>
             </motion.div>
 
-            {/* Card principal com dados importantes e visuais */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
               className="bg-white rounded-3xl shadow-lg overflow-hidden mb-6"
             >
-              {/* Banner de Índice de Transformação (conceito gamificado) */}
               <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
@@ -323,7 +302,6 @@ const ProfileSummary: React.FC = () => {
                 </div>
               </div>
 
-              {/* Métricas principais */}
               <div className="p-5 border-b border-gray-100">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-semibold text-gray-800 flex items-center gap-2">
@@ -339,9 +317,7 @@ const ProfileSummary: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Barra de IMC renovada */}
                 <div className="relative h-6 mb-1">
-                  {/* Fundo da barra com gradiente */}
                   <div className="absolute inset-0 rounded-full overflow-hidden flex">
                     <div className="h-full w-1/5 bg-blue-400"></div>
                     <div className="h-full w-1/5 bg-green-400"></div>
@@ -350,7 +326,6 @@ const ProfileSummary: React.FC = () => {
                     <div className="h-full w-1/5 bg-red-400"></div>
                   </div>
 
-                  {/* Indicador */}
                   <motion.div
                     className="absolute top-1/2 h-8 w-3 bg-white border border-gray-300 rounded-full shadow-md transform -translate-y-1/2"
                     initial={{ left: 0 }}
@@ -364,7 +339,6 @@ const ProfileSummary: React.FC = () => {
                   ></motion.div>
                 </div>
 
-                {/* Legenda da barra */}
                 <div className="flex justify-between text-xs text-gray-600 px-1">
                   <span>15</span>
                   <span>20</span>
@@ -374,7 +348,6 @@ const ProfileSummary: React.FC = () => {
                 </div>
               </div>
 
-              {/* Alerta de risco - condicional */}
               <AnimatePresence>
                 {showRiskAlert && bodyMassIndex > 25 && (
                   <motion.div
@@ -404,7 +377,6 @@ const ProfileSummary: React.FC = () => {
                 )}
               </AnimatePresence>
 
-              {/* Informações do perfil em formato grid */}
               <div className="p-5 grid grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
                   <User className="w-5 h-5 mt-0.5 text-[#7432B4]" />
@@ -457,7 +429,6 @@ const ProfileSummary: React.FC = () => {
                 </div>
               </div>
 
-              {/* Data alvo e Compromisso */}
               <div className="p-5 bg-[#F7F3FF] flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full bg-[#7432B4] flex-shrink-0 overflow-hidden border-2 border-white shadow-md flex items-center justify-center text-white">
                   <Calendar className="w-7 h-7" />
@@ -476,7 +447,6 @@ const ProfileSummary: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Benefícios Personalizados */}
             <AnimatePresence>
               {showBenefits && (
                 <motion.div
@@ -490,7 +460,7 @@ const ProfileSummary: React.FC = () => {
                     Benefícios Esperados Para Você
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {getPersonalizedBenefits().map((benefit, index) => (
                       <motion.div
                         key={index}
@@ -499,21 +469,22 @@ const ProfileSummary: React.FC = () => {
                         transition={{ delay: 1.5 + index * 0.2 }}
                         className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200"
                       >
-                        <div className="flex items-start gap-2 mb-1">
-                          <div className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs font-bold">
-                            {benefit.percentage}
+                        <div className="flex flex-col h-full">
+                          <div className="flex items-start gap-2 mb-2">
+                            <div className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">
+                              {benefit.percentage}
+                            </div>
+                            <div className="text-sm font-medium text-[#2D1441] break-words">
+                              {benefit.title}
+                            </div>
                           </div>
-                          <div className="text-sm font-medium text-[#2D1441]">
-                            {benefit.title}
-                          </div>
+                          <p className="text-xs text-gray-600 mt-auto">
+                            {benefit.description}
+                          </p>
                         </div>
-                        <p className="text-xs text-gray-600 pl-10">
-                          {benefit.description}
-                        </p>
                       </motion.div>
                     ))}
                   </div>
-
 
                   <div className="mt-4 pt-4 border-t border-gray-100 text-xs text-gray-500 text-center">
                     Percentuais baseados em estudo clínico com 450 participantes
@@ -523,8 +494,6 @@ const ProfileSummary: React.FC = () => {
               )}
             </AnimatePresence>
 
-
-            {/* Botão de continuação com urgência */}
             <AnimatePresence>
               {analysisComplete && (
                 <motion.div
@@ -538,7 +507,6 @@ const ProfileSummary: React.FC = () => {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                   >
-                    {/* Efeito de pulso para aumentar urgência */}
                     <motion.div
                       className="absolute inset-0 bg-white opacity-20"
                       animate={{
