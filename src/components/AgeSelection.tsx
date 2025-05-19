@@ -50,14 +50,14 @@ const AgeSelection: React.FC = () => {
 
         {/* Title - Ênfase no problema (CUIDADOR) */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#2D1441] text-center leading-tight mb-4 max-w-3xl">
-  DESCUBRA SEU MÉTODO PERSONALIZADO DE{' '}
-  <span className="text-[#7432B4]">YOGA NA CADEIRA</span> EM 2 MINUTOS
+  TRANSFORME 15 MINUTOS NA CADEIRA EM{' '}
+  <span className="text-[#7432B4]">ANOS SEM DOR NAS COSTAS</span>
 </h1>
 
-        {/* Subtitle - Problema + Solução (CUIDADOR) */}
-        <p className="text-gray-600 text-sm sm:text-base text-center mb-8 max-w-md sm:max-w-lg lg:max-w-xl">
-          <span className="font-semibold">Para mulheres 35+ que sofrem com limitações de movimento e dores articulares.</span> Método desenvolvido por fisioterapeutas especializados em saúde feminina.
-        </p>
+{/* Subtitle - Nova promessa alinhada */}
+<p className="text-gray-600 text-sm sm:text-base text-center mb-8 max-w-md sm:max-w-lg lg:max-w-xl">
+  <span className="font-semibold">Método brasileiro exclusivo aprovado por fisioterapeutas.</span> Mais de 1.287 mulheres já eliminaram suas dores sem remédios ou academia.
+</p>
 
         {/* Age Selection Buttons */}
         <div className="grid grid-cols-2 gap-4 w-full max-w-md sm:max-w-lg lg:max-w-2xl mb-10">
