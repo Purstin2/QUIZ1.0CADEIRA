@@ -56,7 +56,7 @@ const AgeSelection: React.FC = () => {
 
         {/* Subtitle - Problema + Solução (CUIDADOR) */}
         <p className="text-gray-600 text-sm sm:text-base text-center mb-8 max-w-md sm:max-w-lg lg:max-w-xl">
-          <span className="font-semibold">Para mulheres 35+ que sofrem com limitações de movimento e dores articulares.</span> Método desenvolvido por fisioterapeutas especializados em saúde feminina.
+          <span className="font-semibold">Para mulheres que sofrem com limitações de movimento e dores articulares.</span> Método desenvolvido por fisioterapeutas especializados em saúde feminina.
         </p>
 
         {/* Age Selection Buttons */}
