@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+{/* import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, X } from 'lucide-react';
 
@@ -94,7 +94,7 @@ function App() {
         
         <AnimatePresence mode="wait" initial={false}>
           <Routes location={location} key={location.pathname}>
-            {/* Rotas existentes */}
+            {/* Rotas existentes 
           </Routes>
         </AnimatePresence>
         
