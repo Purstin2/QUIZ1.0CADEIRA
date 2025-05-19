@@ -1,7 +1,12 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 type AgeRange = '35-44' | '45-54' | '55-64' | '65+' | null;
-// Removida: type Sex = 'female' | 'male' | null;
 type ChairYogaExperience = 'regular' | 'tried' | 'never' | null;
 type BodyType = 'normal' | 'curvy' | 'plus' | null;
 type DreamBody = 'fit' | 'athletic' | 'shapely' | 'content' | null;
@@ -17,7 +22,6 @@ export interface Goal {
 interface QuizContextType {
   ageRange: AgeRange;
   setAgeRange: (age: AgeRange) => void;
-  // Removidos: sex e setSex
   goals: Goal[];
   toggleGoal: (id: string) => void;
   chairYogaExperience: ChairYogaExperience;
@@ -41,6 +45,7 @@ interface QuizContextType {
   setSelectedPlan: (plan: 'starter' | 'complete' | 'premium' | null) => void;
   email: string | null;
   setEmail: (email: string | null) => void;
+  sessionId: string | null;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -58,8 +63,8 @@ interface QuizProviderProps {
 }
 
 export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [ageRange, setAgeRange] = useState<AgeRange>(null);
-  // Removido: const [sex, setSex] = useState<Sex>(null);
   const [chairYogaExperience, setChairYogaExperience] = useState<ChairYogaExperience>(null);
   const [bodyType, setBodyType] = useState<BodyType>(null);
   const [dreamBody, setDreamBody] = useState<DreamBody>(null);
@@ -71,25 +76,75 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
   const [selectedPlan, setSelectedPlan] = useState<'starter' | 'complete' | 'premium' | null>('complete');
   const [email, setEmail] = useState<string | null>(null);
 
-  // Sequência de fluxo atualizada (removidas etapas desnecessárias e reordenadas)
+  // Initialize session on first load
+  useEffect(() => {
+    const initSession = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('quiz_sessions')
+          .insert([{
+            last_step: '/',
+            user_agent: navigator.userAgent
+          }])
+          .select()
+          .single();
+
+        if (error) throw error;
+        setSessionId(data.id);
+      } catch (err) {
+        console.error('Error creating session:', err);
+      }
+    };
+
+    initSession();
+  }, []);
+
+  // Update session progress on route change
+  useEffect(() => {
+    const updateProgress = async (path: string) => {
+      if (!sessionId) return;
+
+      try {
+        await supabase
+          .from('quiz_sessions')
+          .update({ 
+            last_step: path,
+            completed: path === '/success',
+            email: email // Update email if available
+          })
+          .eq('id', sessionId);
+      } catch (err) {
+        console.error('Error updating session:', err);
+      }
+    };
+
+    // Listen for route changes
+    const handleRouteChange = () => {
+      updateProgress(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
+  }, [sessionId, email]);
+
   const quizSequence = [
-    '/',                         // Age Selection
-    '/goals',                    // Goals Selection
-    '/body-type',                // Body Type
-    '/dream-body',               // Dream Body
-    '/target-zones',             // Target Zones
-    '/chair-yoga-experience',    // Chair Yoga Experience (consolidado com Yoga Level)
-    '/activity-level',           // Activity Level
-    '/sensitivity-check',        // Sensitivity Check
-    '/support-step',             // Suporte emocional (condicional)
-    '/exercise-style',           // Exercise Style
-    '/available-time',           // Available Time
-    '/bmi-calculator',           // BMI Calculator
-    '/profile-summary',          // Profile Summary
-    '/results',                  // Results Page
-    '/sales',                    // Sales Page
-    '/checkout',                 // Checkout 
-    '/success'                   // Success Page
+    '/',
+    '/goals',
+    '/body-type',
+    '/dream-body',
+    '/target-zones',
+    '/chair-yoga-experience',
+    '/activity-level',
+    '/sensitivity-check',
+    '/support-step',
+    '/exercise-style',
+    '/available-time',
+    '/bmi-calculator',
+    '/profile-summary',
+    '/results',
+    '/sales',
+    '/checkout',
+    '/success'
   ];
 
   const getNextRoute = (currentRoute: string): string => {
@@ -158,7 +213,6 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
       value={{
         ageRange,
         setAgeRange,
-        // Removidos: sex, setSex,
         goals,
         toggleGoal,
         chairYogaExperience,
@@ -182,6 +236,7 @@ export const QuizProvider: React.FC<QuizProviderProps> = ({ children }) => {
         setSelectedPlan,
         email,
         setEmail,
+        sessionId
       }}
     >
       {children}
